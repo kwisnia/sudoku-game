@@ -42,10 +42,30 @@ public class SudokuBoard {
         return stringBuilder.toString();
     }
 
-    public boolean validRow(int row) {
-        boolean valid = false;
+    public int validRow(int row) {
         int[] tempTab = sudokuBoard[row];
+        Set<Integer>set = new HashSet<Integer>();
+        for (int value : tempTab) {
+            if (value < 0 || value > 9) {
+                return -1;
+            } else if (!set.add(value)) {
+                return 0;
+            }
+        }
+        return 1;
+    }
 
-        return valid;
+    public int validCol(int col) {
+        Set<Integer>set = new HashSet<Integer>();
+        for (int i = 0; i < 9; i++) {
+            if(sudokuBoard[i][col] < 0 || sudokuBoard[i][col] > 9) {
+                return -1;
+            } else if(sudokuBoard[i][col] != 0) {
+                if(!set.add(sudokuBoard[i][col])){
+                    return 0;
+                }
+            }
+        }
+        return 1;
     }
 }
