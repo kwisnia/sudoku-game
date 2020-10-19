@@ -17,9 +17,15 @@ public class SudokuBoard {
         }
     }
 
+    @Override
+    public String toString() {
+        return Arrays.toString(sudokuBoard);
+    }
+
     public boolean validRow(int row) {
         boolean valid = false;
         int[] tempTab = sudokuBoard[row];
+
         return valid;
     }
 }
