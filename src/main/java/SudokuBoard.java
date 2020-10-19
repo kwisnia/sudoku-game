@@ -79,12 +79,20 @@ public class SudokuBoard {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Set<Integer> set = new HashSet<>();
-                for (int k = 0; k < ; k++) {
-                    for (int l = 0; l < ; l++) {
-                        
+                for (int k = 0; k < i + 3; k++) {
+                    for (int l = 0; l < j + 3; l++) {
+                        if (sudokuBoard[k][l] < 0 || sudokuBoard[k][l] > 9) {
+                            return -1;
+                        }
+                        else if (sudokuBoard[k][l] != 0) {
+                            if(!set.add(sudokuBoard[k][l])) {
+                                return 0;
+                            }
+                        }
                     }
                 }
             }
         }
+        return 1;
     }
 }
