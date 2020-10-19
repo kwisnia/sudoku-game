@@ -14,7 +14,6 @@ public class SudokuBoard {
                sudokuBoard[i][j] = fill;
                fill++;
             }
-
         }
     }
 
@@ -52,6 +51,10 @@ public class SudokuBoard {
                 return 0;
             }
         }
+        /*  -1 gdy wartości są nie właściwe
+            0 gdy wartości w kolumnie się powtarzają
+            1 gdy wszystkie wartości są dobre :)
+         */
         return 1;
     }
 
@@ -67,5 +70,21 @@ public class SudokuBoard {
             }
         }
         return 1;
+        /*  -1 gdy wartości są nie właściwe
+            0 gdy wartości w kolumnie się powtarzają
+            1 gdy wszystkie wartości są dobre :)
+         */
+    }
+    public  int validSubSq() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                Set<Integer> set = new HashSet<>();
+                for (int k = 0; k < ; k++) {
+                    for (int l = 0; l < ; l++) {
+                        
+                    }
+                }
+            }
+        }
     }
 }
