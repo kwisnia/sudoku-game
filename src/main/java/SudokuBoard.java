@@ -13,6 +13,7 @@ public class SudokuBoard {
             for(int j = 0; j < 2; j++) {
                 sudokuBoard[i][j] = random.nextInt();
             }
+
         }
     }
 }
