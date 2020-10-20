@@ -1,8 +1,14 @@
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 
 public class SudokuBoard {
     private final int[][] sudokuBoard = new int[9][9];
 
+    public SudokuBoard() {
+        initializeBoard();
+    }
 
     public int getNumberFromPosition(int i, int j) {
         try {
@@ -13,8 +19,7 @@ public class SudokuBoard {
         return -1;
     }
 
-
-    public void initializeBoard() {
+    private void initializeBoard() {
         Random random = new Random();
         for (int i = 1; i <= 9; i++) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
@@ -26,18 +31,18 @@ public class SudokuBoard {
         }
     }
 
-    public void fillBoard() {
-
+    public void fillBoard(){
+        
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        final String HORIZONTAL_BREAK = "-------------------------\n";
-        stringBuilder.append(HORIZONTAL_BREAK);
+        final String horizontalBreak = "-------------------------\n";
+        stringBuilder.append(horizontalBreak);
         for (int i = 0; i < 9; i++) {
             if (i == 3 || i == 6) {
-                stringBuilder.append(HORIZONTAL_BREAK);
+                stringBuilder.append(horizontalBreak);
             }
             stringBuilder.append("| ");
             for (int j = 0; j < 9; j++) {
@@ -48,13 +53,12 @@ public class SudokuBoard {
                 }
             }
             stringBuilder.append("|\n");
-
         }
-        stringBuilder.append(HORIZONTAL_BREAK);
+        stringBuilder.append(horizontalBreak);
         return stringBuilder.toString();
     }
 
-    public boolean validRow(int row) {
+    private boolean validRow(int row) {
         Set<Integer> set = new HashSet<>();
         for (int value : sudokuBoard[row]) {
             if (value < 0 || value > 9) {
@@ -66,14 +70,9 @@ public class SudokuBoard {
             }
         }
         return true;
-        /*
-            -1 gdy wartości są nie właściwe
-            0 gdy wartości w kolumnie się powtarzają
-            1 gdy wszystkie wartości są dobre :)
-        */
     }
 
-    public boolean validCol(int col) {
+    private boolean validCol(int col) {
         Set<Integer> set = new HashSet<>();
         for (int i = 0; i < 9; i++) {
             if (sudokuBoard[i][col] < 0 || sudokuBoard[i][col] > 9) {
@@ -85,14 +84,9 @@ public class SudokuBoard {
             }
         }
         return true;
-        /*
-            -1 gdy wartości są nie właściwe
-            0 gdy wartości w kolumnie się powtarzają
-            1 gdy wszystkie wartości są dobre :)
-        */
     }
 
-    public boolean validSubSq() {
+    private boolean validSubSq() {
         for (int i = 0; i < 9; i = i + 3) {
             for (int j = 0; j < 9; j = j + 3) {
                 Set<Integer> set = new HashSet<>();
@@ -109,11 +103,6 @@ public class SudokuBoard {
                 }
             }
         }
-        /*
-            -1 gdy wartości są nie właściwe
-            0 gdy wartości w kolumnie się powtarzają
-            1 gdy wszystkie wartości są dobre :)
-        */
         return true;
     }
 
@@ -129,4 +118,3 @@ public class SudokuBoard {
         return validSubSq();
     }
 }
-
