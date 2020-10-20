@@ -3,6 +3,7 @@ import java.util.*;
 public class SudokuBoard {
     private final int[][] sudokuBoard = new int[9][9];
 
+
     public int getNumberFromPosition(int i, int j) {
         try {
             return sudokuBoard[i][j];
@@ -11,6 +12,7 @@ public class SudokuBoard {
         }
         return -1;
     }
+
 
     public void initializeBoard() {
         Random random = new Random();
@@ -94,8 +96,8 @@ public class SudokuBoard {
         for (int i = 0; i < 9; i = i + 3) {
             for (int j = 0; j < 9; j = j + 3) {
                 Set<Integer> set = new HashSet<>();
-                for (int k = 0; k < i + 3; k++) {
-                    for (int l = 0; l < j + 3; l++) {
+                for (int k = i; k < i + 3; k++) {
+                    for (int l = j; l < j + 3; l++) {
                         if (sudokuBoard[k][l] < 0 || sudokuBoard[k][l] > 9) {
                             return false;
                         } else if (sudokuBoard[k][l] != 0) {
