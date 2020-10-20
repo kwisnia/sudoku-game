@@ -9,10 +9,10 @@ public class SudokuBoard {
 
     public void fillBoard() {
         int fill = 1;
-        for (int i = 0; i <= 2; i++){
-            for (int j = 0; j <= 2; j++){
-               sudokuBoard[i][j] = fill;
-               fill++;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                    sudokuBoard[i][j] = fill;
+                    fill++;
             }
         }
     }
@@ -51,11 +51,12 @@ public class SudokuBoard {
                 return 0;
             }
         }
-        /*  -1 gdy wartości są nie właściwe
+        return 1;
+        /*
+            -1 gdy wartości są nie właściwe
             0 gdy wartości w kolumnie się powtarzają
             1 gdy wszystkie wartości są dobre :)
-         */
-        return 1;
+        */
     }
 
     public int validCol(int col) {
@@ -70,14 +71,15 @@ public class SudokuBoard {
             }
         }
         return 1;
-        /*  -1 gdy wartości są nie właściwe
+        /*
+            -1 gdy wartości są nie właściwe
             0 gdy wartości w kolumnie się powtarzają
             1 gdy wszystkie wartości są dobre :)
-         */
+        */
     }
-    public  int validSubSq() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+    public int validSubSq() {
+        for (int i = 0; i < 9; i = i + 3) {
+            for (int j = 0; j < 9; j = j+ 3) {
                 Set<Integer> set = new HashSet<>();
                 for (int k = 0; k < i + 3; k++) {
                     for (int l = 0; l < j + 3; l++) {
@@ -91,6 +93,28 @@ public class SudokuBoard {
                         }
                     }
                 }
+            }
+        }
+        /*
+            -1 gdy wartości są nie właściwe
+            0 gdy wartości w kolumnie się powtarzają
+            1 gdy wszystkie wartości są dobre :)
+        */
+        return 1;
+    }
+
+    public int validBoard() {
+        for(int i = 0; i < 9; i++) {
+            int valid_1 = validRow(i);
+            int valid_2 = validCol(i);
+            if (valid_1 < 1 || valid_2 < 1) {
+                return -1;
+            }
+            int valid_3 = validSubSq();
+            if (valid_3 < 1) {
+                return 1;
+            } else {
+                return 0;
             }
         }
         return 1;
