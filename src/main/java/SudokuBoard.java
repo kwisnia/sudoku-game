@@ -83,17 +83,17 @@ public class SudokuBoard {
             1 gdy wszystkie wartości są dobre :)
         */
     }
+
     public int validSubSq() {
         for (int i = 0; i < 9; i = i + 3) {
-            for (int j = 0; j < 9; j = j+ 3) {
+            for (int j = 0; j < 9; j = j + 3) {
                 Set<Integer> set = new HashSet<>();
                 for (int k = 0; k < i + 3; k++) {
                     for (int l = 0; l < j + 3; l++) {
                         if (sudokuBoard[k][l] < 0 || sudokuBoard[k][l] > 9) {
                             return -1;
-                        }
-                        else if (sudokuBoard[k][l] != 0) {
-                            if(!set.add(sudokuBoard[k][l])) {
+                        } else if (sudokuBoard[k][l] != 0) {
+                            if (!set.add(sudokuBoard[k][l])) {
                                 return 0;
                             }
                         }
@@ -116,13 +116,13 @@ public class SudokuBoard {
             if (valid_1 < 1 || valid_2 < 1) {
                 return -1;
             }
-            int valid_3 = validSubSq();
-            if (valid_3 < 1) {
-                return 1;
-            } else {
-                return 0;
-            }
         }
-        return 1;
+        int valid_3 = validSubSq();
+        if (valid_3 < 1) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
+
