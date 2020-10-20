@@ -3,16 +3,23 @@ import java.util.*;
 public class SudokuBoard {
     private final int[][] sudokuBoard = new int[9][9];
 
-    public int[][] getSudokuBoard() {
-        return sudokuBoard;
+    public int getNumberFromPosition(int i, int j) {
+        try {
+            return sudokuBoard[i][j];
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
     }
 
     public void fillBoard() {
-        int fill = 1;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                    sudokuBoard[i][j] = fill;
-                    fill++;
+        Random random = new Random();
+        for (int i = 1; i <= 9; i++) {
+            int[] positions = {random.nextInt(8), random.nextInt(8)};
+            if (sudokuBoard[positions[0]][positions[1]] == 0) {
+                sudokuBoard[positions[0]][positions[1]] = i;
+            } else {
+                i--;
             }
         }
     }
@@ -42,9 +49,8 @@ public class SudokuBoard {
     }
 
     public int validRow(int row) {
-        int[] tempTab = sudokuBoard[row];
-        Set<Integer>set = new HashSet<Integer>();
-        for (int value : tempTab) {
+        Set<Integer> set = new HashSet<>();
+        for (int value : sudokuBoard[row]) {
             if (value < 0 || value > 9) {
                 return -1;
             } else if (!set.add(value)) {
@@ -60,12 +66,12 @@ public class SudokuBoard {
     }
 
     public int validCol(int col) {
-        Set<Integer>set = new HashSet<Integer>();
+        Set<Integer> set = new HashSet<>();
         for (int i = 0; i < 9; i++) {
-            if(sudokuBoard[i][col] < 0 || sudokuBoard[i][col] > 9) {
+            if (sudokuBoard[i][col] < 0 || sudokuBoard[i][col] > 9) {
                 return -1;
-            } else if(sudokuBoard[i][col] != 0) {
-                if(!set.add(sudokuBoard[i][col])){
+            } else if (sudokuBoard[i][col] != 0) {
+                if (!set.add(sudokuBoard[i][col])) {
                     return 0;
                 }
             }
@@ -104,7 +110,7 @@ public class SudokuBoard {
     }
 
     public int validBoard() {
-        for(int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             int valid_1 = validRow(i);
             int valid_2 = validCol(i);
             if (valid_1 < 1 || valid_2 < 1) {
