@@ -12,7 +12,7 @@ public class SudokuBoard {
         return -1;
     }
 
-    public void fillBoard() {
+    public void initializeBoard() {
         Random random = new Random();
         for (int i = 1; i <= 9; i++) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
@@ -22,6 +22,10 @@ public class SudokuBoard {
                 i--;
             }
         }
+    }
+
+    public void fillBoard() {
+
     }
 
     @Override
@@ -48,35 +52,18 @@ public class SudokuBoard {
         return stringBuilder.toString();
     }
 
-    public int validRow(int row) {
+    public boolean validRow(int row) {
         Set<Integer> set = new HashSet<>();
         for (int value : sudokuBoard[row]) {
             if (value < 0 || value > 9) {
-                return -1;
-            } else if (!set.add(value)) {
-                return 0;
-            }
-        }
-        return 1;
-        /*
-            -1 gdy wartości są nie właściwe
-            0 gdy wartości w kolumnie się powtarzają
-            1 gdy wszystkie wartości są dobre :)
-        */
-    }
-
-    public int validCol(int col) {
-        Set<Integer> set = new HashSet<>();
-        for (int i = 0; i < 9; i++) {
-            if (sudokuBoard[i][col] < 0 || sudokuBoard[i][col] > 9) {
-                return -1;
-            } else if (sudokuBoard[i][col] != 0) {
-                if (!set.add(sudokuBoard[i][col])) {
-                    return 0;
+                return false;
+            } else if (value != 0) {
+                if (!set.add(value)) {
+                    return false;
                 }
             }
         }
-        return 1;
+        return true;
         /*
             -1 gdy wartości są nie właściwe
             0 gdy wartości w kolumnie się powtarzają
@@ -84,17 +71,36 @@ public class SudokuBoard {
         */
     }
 
-    public int validSubSq() {
+    public boolean validCol(int col) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < 9; i++) {
+            if (sudokuBoard[i][col] < 0 || sudokuBoard[i][col] > 9) {
+                return false;
+            } else if (sudokuBoard[i][col] != 0) {
+                if (!set.add(sudokuBoard[i][col])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+        /*
+            -1 gdy wartości są nie właściwe
+            0 gdy wartości w kolumnie się powtarzają
+            1 gdy wszystkie wartości są dobre :)
+        */
+    }
+
+    public boolean validSubSq() {
         for (int i = 0; i < 9; i = i + 3) {
             for (int j = 0; j < 9; j = j + 3) {
                 Set<Integer> set = new HashSet<>();
                 for (int k = 0; k < i + 3; k++) {
                     for (int l = 0; l < j + 3; l++) {
                         if (sudokuBoard[k][l] < 0 || sudokuBoard[k][l] > 9) {
-                            return -1;
+                            return false;
                         } else if (sudokuBoard[k][l] != 0) {
                             if (!set.add(sudokuBoard[k][l])) {
-                                return 0;
+                                return false;
                             }
                         }
                     }
@@ -106,23 +112,19 @@ public class SudokuBoard {
             0 gdy wartości w kolumnie się powtarzają
             1 gdy wszystkie wartości są dobre :)
         */
-        return 1;
+        return true;
     }
 
-    public int validBoard() {
+    public boolean validBoard() {
         for (int i = 0; i < 9; i++) {
-            int valid_1 = validRow(i);
-            int valid_2 = validCol(i);
-            if (valid_1 < 1 || valid_2 < 1) {
-                return -1;
+            if (!validRow(i)) {
+                return false;
+            }
+            if (!validCol(i)) {
+                return false;
             }
         }
-        int valid_3 = validSubSq();
-        if (valid_3 < 1) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return validSubSq();
     }
 }
 
