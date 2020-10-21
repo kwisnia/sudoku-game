@@ -4,10 +4,20 @@ import java.util.Random;
 import java.util.Set;
 
 
+/**
+ * The type Sudoku board.
+ */
 public class SudokuBoard {
     private final int[][] sudokuBoard = new int[9][9];
 
 
+    /**
+     * Gets number from position.
+     *
+     * @param i the row
+     * @param j the column
+     * @return the number from position
+     */
     public int getNumberFromPosition(int i, int j) {
         try {
             return sudokuBoard[i][j];
@@ -29,6 +39,9 @@ public class SudokuBoard {
         }
     }
 
+    /**
+     * Fill board.
+     */
     public void fillBoard() {
         for (int[] row:sudokuBoard) {
             Arrays.fill(row, 0);
@@ -37,6 +50,11 @@ public class SudokuBoard {
         solveBoard();
     }
 
+    /**
+     * Solve board boolean.
+     *
+     * @return the boolean
+     */
     public boolean solveBoard() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -130,6 +148,11 @@ public class SudokuBoard {
         return true;
     }
 
+    /**
+     * Valid board boolean.
+     *
+     * @return the boolean
+     */
     public boolean validBoard() {
         for (int i = 0; i < 9; i++) {
             if (!validRow(i)) {
