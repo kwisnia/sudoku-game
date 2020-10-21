@@ -1,6 +1,4 @@
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 
 public class SudokuBoard {
@@ -31,9 +29,27 @@ public class SudokuBoard {
         }
     }
 
-    public void fillBoard(){
-        
+    public boolean fillBoard(){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                    if (sudokuBoard[i][j] == 0) {
+                        for (int k = 1; k < 10; k++) {
+                        sudokuBoard[i][j] = k;
+                        if (validBoard()) {
+                            if (fillBoard()) {
+                                return true;
+                            }
+                        } else {
+                            sudokuBoard[i][j] = 0;
+                        }
+                    }
+                        return false;
+                }
+            }
+        }
+        return true;
     }
+
 
     @Override
     public String toString() {
