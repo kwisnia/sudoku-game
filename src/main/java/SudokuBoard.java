@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -6,9 +7,6 @@ import java.util.Set;
 public class SudokuBoard {
     private final int[][] sudokuBoard = new int[9][9];
 
-    public SudokuBoard() {
-        initializeBoard();
-    }
 
     public int getNumberFromPosition(int i, int j) {
         try {
@@ -30,15 +28,21 @@ public class SudokuBoard {
             }
         }
     }
-
-    public boolean fillBoard() {
+    public void fillBoard() {
+        for (int[] row:sudokuBoard) {
+            Arrays.fill(row, 0);
+        }
+        initializeBoard();
+        solveBoard();
+    }
+    public boolean solveBoard() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                     if (sudokuBoard[i][j] == 0) {
                         for (int k = 1; k < 10; k++) {
                         sudokuBoard[i][j] = k;
                         if (validBoard()) {
-                            if (fillBoard()) {
+                            if (solveBoard()) {
                                 return true;
                             }
                         } else {
