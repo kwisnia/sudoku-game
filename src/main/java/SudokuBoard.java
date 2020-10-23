@@ -57,7 +57,7 @@ public class SudokuBoard {
      * @return the boolean
      */
 
-    public boolean solveBoard() {
+    private boolean solveBoard() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                     if (board[i][j] == 0) {
