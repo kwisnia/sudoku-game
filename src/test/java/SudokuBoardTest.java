@@ -11,6 +11,7 @@ class SudokuBoardTest {
         sudokuBoard.fillBoard();
         assertTrue(sudokuBoard.validBoard());
     }
+
     @Test
     void randomBoardCheck() {
         SudokuBoard sudokuBoard = new SudokuBoard();

@@ -8,7 +8,7 @@ import java.util.Set;
  * The type Sudoku board.
  */
 public class SudokuBoard {
-    private final int[][] sudokuBoard = new int[9][9];
+    private final int[][] board = new int[9][9];
 
 
     /**
@@ -20,7 +20,7 @@ public class SudokuBoard {
      */
     public int getNumberFromPosition(int i, int j) {
         try {
-            return sudokuBoard[i][j];
+            return board[i][j];
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
@@ -31,8 +31,8 @@ public class SudokuBoard {
         Random random = new Random();
         for (int i = 1; i <= 9; i++) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
-            if (sudokuBoard[positions[0]][positions[1]] == 0) {
-                sudokuBoard[positions[0]][positions[1]] = i;
+            if (board[positions[0]][positions[1]] == 0) {
+                board[positions[0]][positions[1]] = i;
             } else {
                 i--;
             }
@@ -43,7 +43,7 @@ public class SudokuBoard {
      * Fill board.
      */
     public void fillBoard() {
-        for (int[] row:sudokuBoard) {
+        for (int[] row: board) {
             Arrays.fill(row, 0);
         }
         initializeBoard();
@@ -58,15 +58,15 @@ public class SudokuBoard {
     public boolean solveBoard() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                    if (sudokuBoard[i][j] == 0) {
+                    if (board[i][j] == 0) {
                         for (int k = 1; k < 10; k++) {
-                        sudokuBoard[i][j] = k;
+                        board[i][j] = k;
                         if (validBoard()) {
                             if (solveBoard()) {
                                 return true;
                             }
                         } else {
-                            sudokuBoard[i][j] = 0;
+                            board[i][j] = 0;
                         }
                     }
                         return false;
@@ -88,7 +88,7 @@ public class SudokuBoard {
             }
             stringBuilder.append("| ");
             for (int j = 0; j < 9; j++) {
-                stringBuilder.append(sudokuBoard[i][j])
+                stringBuilder.append(board[i][j])
                         .append(" ");
                 if (j == 2 || j == 5) {
                     stringBuilder.append("| ");
@@ -102,7 +102,7 @@ public class SudokuBoard {
 
     private boolean validRow(int row) {
         Set<Integer> set = new HashSet<>();
-        for (int value : sudokuBoard[row]) {
+        for (int value : board[row]) {
             if (value < 0 || value > 9) {
                 return false;
             } else if (value != 0) {
@@ -117,10 +117,10 @@ public class SudokuBoard {
     private boolean validCol(int col) {
         Set<Integer> set = new HashSet<>();
         for (int i = 0; i < 9; i++) {
-            if (sudokuBoard[i][col] < 0 || sudokuBoard[i][col] > 9) {
+            if (board[i][col] < 0 || board[i][col] > 9) {
                 return false;
-            } else if (sudokuBoard[i][col] != 0) {
-                if (!set.add(sudokuBoard[i][col])) {
+            } else if (board[i][col] != 0) {
+                if (!set.add(board[i][col])) {
                     return false;
                 }
             }
@@ -134,10 +134,10 @@ public class SudokuBoard {
                 Set<Integer> set = new HashSet<>();
                 for (int k = i; k < i + 3; k++) {
                     for (int l = j; l < j + 3; l++) {
-                        if (sudokuBoard[k][l] < 0 || sudokuBoard[k][l] > 9) {
+                        if (board[k][l] < 0 || board[k][l] > 9) {
                             return false;
-                        } else if (sudokuBoard[k][l] != 0) {
-                            if (!set.add(sudokuBoard[k][l])) {
+                        } else if (board[k][l] != 0) {
+                            if (!set.add(board[k][l])) {
                                 return false;
                             }
                         }
