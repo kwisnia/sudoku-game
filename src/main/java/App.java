@@ -3,6 +3,5 @@ public class App {
         SudokuBoard su = new SudokuBoard();
         su.fillBoard();
         System.out.println(su.toString());
-
     }
 }

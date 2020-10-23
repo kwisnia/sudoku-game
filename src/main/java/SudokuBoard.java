@@ -42,6 +42,7 @@ public class SudokuBoard {
     /**
      * Fill board.
      */
+
     public void fillBoard() {
         for (int[] row:sudokuBoard) {
             Arrays.fill(row, 0);
@@ -55,6 +56,7 @@ public class SudokuBoard {
      *
      * @return the boolean
      */
+
     public boolean solveBoard() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -153,6 +155,7 @@ public class SudokuBoard {
      *
      * @return the boolean
      */
+
     public boolean validBoard() {
         for (int i = 0; i < 9; i++) {
             if (!validRow(i)) {
