@@ -18,13 +18,17 @@ public class SudokuBoard {
      * @param j the column
      * @return the number from position
      */
-    public int getNumberFromPosition(int i, int j) {
+    public int get(int i, int j) {
         try {
             return board[i][j];
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
         return -1;
+    }
+
+    public void set(int i, int j, int number) {
+        board[i][j] = number;
     }
 
     private void initializeBoard() {
