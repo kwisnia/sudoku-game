@@ -39,6 +39,11 @@ class SudokuBoardTest {
         } catch (InputMismatchException e) {
             assertEquals(e.getMessage(), "Number must be in range from 1 to 9");
         }
+        try {
+            sudokuBoard.set(0,0, -1);
+        } catch (InputMismatchException e) {
+            assertEquals(e.getMessage(), "Number must be in range from 1 to 9");
+        }
     }
 
     @Test
