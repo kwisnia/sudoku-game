@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Set;
 
@@ -32,7 +33,15 @@ public class SudokuBoard {
     }
 
     public void set(int i, int j, int number) {
-        board[i][j] = number;
+        if (number < 0 || number > 9)  {
+            throw new InputMismatchException("Number must be in range from 1 to 9");
+        } else {
+            try {
+                board[i][j] = number;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private void initializeBoard() {
@@ -56,6 +65,7 @@ public class SudokuBoard {
             Arrays.fill(row, 0);
         }
         initializeBoard();
+        sudokuSolver.solve(this);
 
     }
 
@@ -85,9 +95,7 @@ public class SudokuBoard {
     private boolean validRow(int row) {
         Set<Integer> set = new HashSet<>();
         for (int value : board[row]) {
-            if (value < 0 || value > 9) {
-                return false;
-            } else if (value != 0) {
+            if (value != 0) {
                 if (!set.add(value)) {
                     return false;
                 }
@@ -99,9 +107,7 @@ public class SudokuBoard {
     private boolean validCol(int col) {
         Set<Integer> set = new HashSet<>();
         for (int i = 0; i < 9; i++) {
-            if (board[i][col] < 0 || board[i][col] > 9) {
-                return false;
-            } else if (board[i][col] != 0) {
+             if (board[i][col] != 0) {
                 if (!set.add(board[i][col])) {
                     return false;
                 }
@@ -116,9 +122,7 @@ public class SudokuBoard {
                 Set<Integer> set = new HashSet<>();
                 for (int k = i; k < i + 3; k++) {
                     for (int l = j; l < j + 3; l++) {
-                        if (board[k][l] < 0 || board[k][l] > 9) {
-                            return false;
-                        } else if (board[k][l] != 0) {
+                        if (board[k][l] != 0) {
                             if (!set.add(board[k][l])) {
                                 return false;
                             }
