@@ -9,7 +9,11 @@ import java.util.Set;
  */
 public class SudokuBoard {
     private final int[][] board = new int[9][9];
+    private final SudokuSolver sudokuSolver;
 
+    public SudokuBoard(SudokuSolver sudokuSolver) {
+        this.sudokuSolver = sudokuSolver;
+    }
 
     /**
      * Gets number from position.
@@ -47,41 +51,13 @@ public class SudokuBoard {
      * Fill board.
      */
 
-    public void fillBoard() {
+    public void solveGame() {
         for (int[] row: board) {
             Arrays.fill(row, 0);
         }
         initializeBoard();
-        solveBoard();
+
     }
-
-    /**
-     * Solve board boolean.
-     *
-     * @return the boolean
-     */
-
-    private boolean solveBoard() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                    if (board[i][j] == 0) {
-                        for (int k = 1; k < 10; k++) {
-                        board[i][j] = k;
-                        if (validBoard()) {
-                            if (solveBoard()) {
-                                return true;
-                            }
-                        } else {
-                            board[i][j] = 0;
-                        }
-                    }
-                        return false;
-                }
-            }
-        }
-        return true;
-    }
-
 
     @Override
     public String toString() {
