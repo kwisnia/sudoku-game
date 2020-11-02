@@ -9,7 +9,15 @@ class SudokuBoardTest {
     void fillBoard() {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         sudokuBoard.solveGame();
-        assertTrue(sudokuBoard.checkBoard());
+        for (int i = 0; i < 9; i++) {
+            assertTrue(sudokuBoard.getRow(i).verify());
+            assertTrue(sudokuBoard.getColumn(i).verify());
+        }
+        for (int i = 0; i < 9; i = i + 3) {
+            for (int j = 0; j < 9; j = j + 3) {
+                assertTrue(sudokuBoard.getBox(i, j).verify());
+            }
+        }
     }
 
     @Test

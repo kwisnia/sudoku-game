@@ -44,8 +44,10 @@ public class SudokuBoard {
     public SudokuBox getBox(int x, int y) {
         SudokuField[] box = new SudokuField[9];
         int index = 0;
-        for (int i = x - x % 3; i < x + 3; i++) {
-            for (int j = y - y % 3; j < y + 3; j++) {
+        int boxBeginningRow = x - x % 3;
+        int boxBeginningColumn = y - y % 3;
+        for (int i = boxBeginningRow; i < boxBeginningRow + 3; i++) {
+            for (int j = boxBeginningColumn; j < boxBeginningColumn + 3; j++) {
                 box[index++] = board[i][j];
             }
         }
@@ -88,7 +90,7 @@ public class SudokuBoard {
         }
         initializeBoard();
         sudokuSolver.solve(this);
-
+        checkBoard();
     }
 
     @Override
@@ -120,7 +122,7 @@ public class SudokuBoard {
      * @return the boolean
      */
 
-    public boolean checkBoard() {
+    private boolean checkBoard() {
         for (int i = 0; i < 9; i++) {
             if (!getRow(i).verify()) {
                 return false;
