@@ -9,7 +9,7 @@ class SudokuBoardTest {
     void fillBoard() {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         sudokuBoard.solveGame();
-        assertTrue(sudokuBoard.validBoard());
+        assertTrue(sudokuBoard.checkBoard());
     }
 
     @Test

@@ -1,15 +1,12 @@
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Set;
 
 
 /**
  * The type Sudoku board.
  */
 public class SudokuBoard {
-    private final int[][] board = new int[9][9];
+    private final SudokuField[][] board = new SudokuField[9][9];
     private final SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
@@ -25,19 +22,42 @@ public class SudokuBoard {
      */
     public int get(int i, int j) {
         try {
-            return board[i][j];
+            return board[i][j].getFieldValue();
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
         return -1;
     }
 
+    public SudokuRow getRow(int y) {
+        return new SudokuRow(board[y]);
+    }
+
+    public SudokuColumn getColumn(int x) {
+        SudokuField[] column = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            column[i] = board[i][x];
+        }
+        return new SudokuColumn(column);
+    }
+
+    public SudokuBox getBox(int x, int y) {
+        SudokuField[] box = new SudokuField[9];
+        int index = 0;
+        for (int i = x - x % 3; i < x + 3; i++) {
+            for (int j = y - y % 3; j < y + 3; j++) {
+                box[index++] = board[i][j];
+            }
+        }
+        return new SudokuBox(box);
+    }
+
     public void set(int i, int j, int number) {
-        if (number < 0 || number > 9)  {
+        if (number < 0 || number > 9) {
             throw new InputMismatchException("Number must be in range from 1 to 9");
         } else {
             try {
-                board[i][j] = number;
+                board[i][j].setFieldValue(number);
             } catch (IndexOutOfBoundsException e) {
                 System.out.println(e.getMessage());
             }
@@ -46,12 +66,12 @@ public class SudokuBoard {
 
     private void initializeBoard() {
         Random random = new Random();
-        for (int i = 1; i <= 9; i++) {
+        int insertedNumber = 1;
+        while (insertedNumber <= 9) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
-            if (board[positions[0]][positions[1]] == 0) {
-                board[positions[0]][positions[1]] = i;
-            } else {
-                i--;
+            if (board[positions[0]][positions[1]].getFieldValue() == 0) {
+                board[positions[0]][positions[1]].setFieldValue(insertedNumber);
+                insertedNumber++;
             }
         }
     }
@@ -61,8 +81,10 @@ public class SudokuBoard {
      */
 
     public void solveGame() {
-        for (int[] row: board) {
-            Arrays.fill(row, 0);
+        for (SudokuField[] row : board) {
+            for (int i = 0; i < 9; i++) {
+                row[i] = new SudokuField(0);
+            }
         }
         initializeBoard();
         sudokuSolver.solve(this);
@@ -80,7 +102,7 @@ public class SudokuBoard {
             }
             stringBuilder.append("| ");
             for (int j = 0; j < 9; j++) {
-                stringBuilder.append(board[i][j])
+                stringBuilder.append(board[i][j].getFieldValue())
                         .append(" ");
                 if (j == 2 || j == 5) {
                     stringBuilder.append("| ");
@@ -92,63 +114,28 @@ public class SudokuBoard {
         return stringBuilder.toString();
     }
 
-    private boolean validRow(int row) {
-        Set<Integer> set = new HashSet<>();
-        for (int value : board[row]) {
-            if (value != 0) {
-                if (!set.add(value)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean validCol(int col) {
-        Set<Integer> set = new HashSet<>();
-        for (int i = 0; i < 9; i++) {
-             if (board[i][col] != 0) {
-                if (!set.add(board[i][col])) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean validSubSq() {
-        for (int i = 0; i < 9; i = i + 3) {
-            for (int j = 0; j < 9; j = j + 3) {
-                Set<Integer> set = new HashSet<>();
-                for (int k = i; k < i + 3; k++) {
-                    for (int l = j; l < j + 3; l++) {
-                        if (board[k][l] != 0) {
-                            if (!set.add(board[k][l])) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
     /**
      * Valid board boolean.
      *
      * @return the boolean
      */
 
-    public boolean validBoard() {
+    public boolean checkBoard() {
         for (int i = 0; i < 9; i++) {
-            if (!validRow(i)) {
+            if (!getRow(i).verify()) {
                 return false;
             }
-            if (!validCol(i)) {
+            if (!getColumn(i).verify()) {
                 return false;
             }
         }
-        return validSubSq();
+        for (int i = 0; i < 9; i = i + 3) {
+            for (int j = 0; j < 9; j = j + 3) {
+                if (!getBox(i, j).verify()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
