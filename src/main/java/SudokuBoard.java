@@ -1,3 +1,5 @@
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.InputMismatchException;
 import java.util.Random;
 
@@ -5,12 +7,25 @@ import java.util.Random;
 /**
  * The type Sudoku board.
  */
-public class SudokuBoard {
+public class SudokuBoard implements PropertyChangeListener {
     private final SudokuField[][] board = new SudokuField[9][9];
     private final SudokuSolver sudokuSolver;
+    private boolean checkFlag = false;
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
         this.sudokuSolver = sudokuSolver;
+        for (SudokuField[] row : board) {
+            for (int i = 0; i < 9; i++) {
+                row[i] = new SudokuField(0);
+            }
+        }
+        for (SudokuField[] row :
+                board) {
+            for (SudokuField field :
+                    row) {
+                field.addPropertyChangeListener(this);
+            }
+        }
     }
 
     /**
@@ -66,6 +81,10 @@ public class SudokuBoard {
         }
     }
 
+    public void setCheckFlag(boolean checkFlag) {
+        this.checkFlag = checkFlag;
+    }
+
     private void initializeBoard() {
         Random random = new Random();
         int insertedNumber = 1;
@@ -85,7 +104,7 @@ public class SudokuBoard {
     public void solveGame() {
         for (SudokuField[] row : board) {
             for (int i = 0; i < 9; i++) {
-                row[i] = new SudokuField(0);
+                row[i].setFieldValue(0);
             }
         }
         initializeBoard();
@@ -140,4 +159,11 @@ public class SudokuBoard {
         }
         return true;
     }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (checkFlag && !this.checkBoard()) {
+            System.out.println("Wrong input: " + evt.getNewValue());
+        }
+    }
+
 }
