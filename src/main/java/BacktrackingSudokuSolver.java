@@ -1,20 +1,27 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class BacktrackingSudokuSolver implements SudokuSolver {
 
     @Override
     public void solve(SudokuBoard sudokuBoard) {
-        solveBoard(sudokuBoard);
+        List<Integer> numbersToFill = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Collections.shuffle(numbersToFill);
+        solveBoard(sudokuBoard, numbersToFill);
     }
 
-    private boolean solveBoard(SudokuBoard sudokuBoard) {
+    private boolean solveBoard(SudokuBoard sudokuBoard, List<Integer> shuffledNumbers) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (sudokuBoard.get(i, j) == 0) {
-                    for (int k = 1; k < 10; k++) {
-                        sudokuBoard.set(i, j, k);
+                    for (int n:
+                         shuffledNumbers) {
+                        sudokuBoard.set(i, j, n);
                         if (sudokuBoard.getBox(i, j).verify()
                                 && sudokuBoard.getColumn(j).verify()
                                 && sudokuBoard.getRow(i).verify()) {
-                            if (solveBoard(sudokuBoard)) {
+                            if (solveBoard(sudokuBoard, shuffledNumbers)) {
                                 return true;
                             }
                         } else {

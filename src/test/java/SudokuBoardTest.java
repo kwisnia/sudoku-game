@@ -23,6 +23,11 @@ class SudokuBoardTest {
                 assertTrue(sudokuBoard.getBox(i, j).verify());
             }
         }
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                assertNotEquals(0, sudokuBoard.get(i, j));
+            }
+        }
     }
 
     @Test

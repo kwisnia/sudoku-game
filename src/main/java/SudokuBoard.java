@@ -1,6 +1,8 @@
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Random;
 
 
@@ -8,24 +10,16 @@ import java.util.Random;
  * The type Sudoku board.
  */
 public class SudokuBoard implements PropertyChangeListener {
-    private final SudokuField[][] board = new SudokuField[9][9];
+    final List<SudokuField> board = Arrays.asList(new SudokuField[81]);
     private final SudokuSolver sudokuSolver;
     private boolean checkFlag = false;
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
         this.sudokuSolver = sudokuSolver;
-        for (SudokuField[] row : board) {
-            for (int i = 0; i < 9; i++) {
-                row[i] = new SudokuField(0);
-            }
+        for (int i = 0; i < 81; i++) {
+            board.set(i, new SudokuField(0));
         }
-        for (SudokuField[] row :
-                board) {
-            for (SudokuField field :
-                    row) {
-                field.addPropertyChangeListener(this);
-            }
-        }
+        board.forEach(f -> f.addPropertyChangeListener(this));
     }
 
     /**
@@ -37,7 +31,7 @@ public class SudokuBoard implements PropertyChangeListener {
      */
     public int get(int i, int j) {
         try {
-            return board[i][j].getFieldValue();
+            return board.get(i * 9 + j).getFieldValue();
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
@@ -45,15 +39,15 @@ public class SudokuBoard implements PropertyChangeListener {
     }
 
     public SudokuRow getRow(int y) {
-        return new SudokuRow(board[y]);
+        return new SudokuRow(board.subList(y * 9, y * 9 + 9));
     }
 
     public SudokuColumn getColumn(int x) {
         SudokuField[] column = new SudokuField[9];
         for (int i = 0; i < 9; i++) {
-            column[i] = board[i][x];
+            column[i] = board.get(i * 9 + x);
         }
-        return new SudokuColumn(column);
+        return new SudokuColumn(Arrays.asList(column));
     }
 
     public SudokuBox getBox(int x, int y) {
@@ -63,10 +57,10 @@ public class SudokuBoard implements PropertyChangeListener {
         int boxBeginningColumn = y - y % 3;
         for (int i = boxBeginningRow; i < boxBeginningRow + 3; i++) {
             for (int j = boxBeginningColumn; j < boxBeginningColumn + 3; j++) {
-                box[index++] = board[i][j];
+                box[index++] = board.get(i * 9 + j);
             }
         }
-        return new SudokuBox(box);
+        return new SudokuBox(Arrays.asList(box));
     }
 
     public void set(int i, int j, int number) {
@@ -74,7 +68,7 @@ public class SudokuBoard implements PropertyChangeListener {
             throw new InputMismatchException("Number must be in range from 1 to 9");
         } else {
             try {
-                board[i][j].setFieldValue(number);
+                board.get(i * 9 + j).setFieldValue(number);
             } catch (IndexOutOfBoundsException e) {
                 System.out.println(e.getMessage());
             }
@@ -90,8 +84,8 @@ public class SudokuBoard implements PropertyChangeListener {
         int insertedNumber = 1;
         while (insertedNumber <= 9) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
-            if (board[positions[0]][positions[1]].getFieldValue() == 0) {
-                board[positions[0]][positions[1]].setFieldValue(insertedNumber);
+            if (board.get(positions[0] * 9 + positions[1]).getFieldValue() == 0) {
+                board.get(positions[0] * 9 + positions[1]).setFieldValue(insertedNumber);
                 insertedNumber++;
             }
         }
@@ -102,11 +96,7 @@ public class SudokuBoard implements PropertyChangeListener {
      */
 
     public void solveGame() {
-        for (SudokuField[] row : board) {
-            for (int i = 0; i < 9; i++) {
-                row[i].setFieldValue(0);
-            }
-        }
+        board.forEach(f -> f.setFieldValue(0));
         initializeBoard();
         sudokuSolver.solve(this);
         checkBoard();
@@ -123,7 +113,7 @@ public class SudokuBoard implements PropertyChangeListener {
             }
             stringBuilder.append("| ");
             for (int j = 0; j < 9; j++) {
-                stringBuilder.append(board[i][j].getFieldValue())
+                stringBuilder.append(board.get(i * 9 + j).getFieldValue())
                         .append(" ");
                 if (j == 2 || j == 5) {
                     stringBuilder.append("| ");

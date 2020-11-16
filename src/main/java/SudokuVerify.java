@@ -1,12 +1,13 @@
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class SudokuVerify {
-    public SudokuVerify(SudokuField[] fields) {
+    public SudokuVerify(List<SudokuField> fields) {
         this.fields = fields;
     }
 
-    SudokuField[] fields;
+    List<SudokuField> fields;
     Set<Integer> usedNumbers = new HashSet<>();
 
     public boolean verify() {
