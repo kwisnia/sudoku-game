@@ -2,8 +2,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class SudokuVerify {
-    public SudokuVerify(List<SudokuField> fields) {
+public abstract class SudokuPiece {
+    public SudokuPiece(List<SudokuField> fields) {
         this.fields = fields;
     }
 
