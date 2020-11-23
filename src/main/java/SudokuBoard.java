@@ -1,3 +1,4 @@
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -105,25 +106,11 @@ public class SudokuBoard implements PropertyChangeListener {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        final String horizontalBreak = "-------------------------\n";
-        stringBuilder.append(horizontalBreak);
-        for (int i = 0; i < 9; i++) {
-            if (i == 3 || i == 6) {
-                stringBuilder.append(horizontalBreak);
-            }
-            stringBuilder.append("| ");
-            for (int j = 0; j < 9; j++) {
-                stringBuilder.append(board.get(i * 9 + j).getFieldValue())
-                        .append(" ");
-                if (j == 2 || j == 5) {
-                    stringBuilder.append("| ");
-                }
-            }
-            stringBuilder.append("|\n");
-        }
-        stringBuilder.append(horizontalBreak);
-        return stringBuilder.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("board", board)
+                .add("sudokuSolver", sudokuSolver)
+                .add("checkFlag", checkFlag)
+                .toString();
     }
 
     /**

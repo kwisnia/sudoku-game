@@ -28,6 +28,7 @@ public class SudokuPieceTest {
     void PieceToStringTest() {
         SudokuBoard testBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         testBoard.solveGame();
+        System.out.println(testBoard.getRow(0).hashCode());
         assertTrue(testBoard.getRow(0).toString()
                 .matches("SudokuRow\\{fields=\\[(SudokuField\\{value=\\d}(,\\s)*){9}]}"));
     }
