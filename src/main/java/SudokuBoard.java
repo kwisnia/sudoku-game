@@ -108,8 +108,6 @@ public class SudokuBoard implements PropertyChangeListener {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("board", board)
-                .add("sudokuSolver", sudokuSolver)
-                .add("checkFlag", checkFlag)
                 .toString();
     }
 
@@ -153,13 +151,11 @@ public class SudokuBoard implements PropertyChangeListener {
             return false;
         }
         SudokuBoard that = (SudokuBoard) o;
-        return checkFlag == that.checkFlag
-                && Objects.equal(board, that.board)
-                && Objects.equal(sudokuSolver, that.sudokuSolver);
+        return Objects.equal(board, that.board);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(board, sudokuSolver, checkFlag);
+        return Objects.hashCode(board);
     }
 }

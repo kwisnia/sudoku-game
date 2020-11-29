@@ -95,27 +95,20 @@ class SudokuBoardTest {
 
     @Test
     void BoardEqualsTest() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-        SudokuBoard sudokuBoard1 = new SudokuBoard(solver);
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver());
         assertNotEquals(sudokuBoard, null);
         assertNotEquals(sudokuBoard, 1);
         assertEquals(sudokuBoard, sudokuBoard);
         assertEquals(sudokuBoard1, sudokuBoard);
         sudokuBoard1.set(0, 0, 3);
         assertNotEquals(sudokuBoard, sudokuBoard1);
-        sudokuBoard1.set(0, 0, 0);
-        sudokuBoard1.setCheckFlag(true);
-        assertNotEquals(sudokuBoard, sudokuBoard1);
-        sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver());
-        assertNotEquals(sudokuBoard1, sudokuBoard);
     }
 
     @Test
     void BoardHashCodeTest() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-        SudokuBoard sudokuBoard1 = new SudokuBoard(solver);
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver());
         assertEquals(sudokuBoard.hashCode(), sudokuBoard1.hashCode());
     }
 

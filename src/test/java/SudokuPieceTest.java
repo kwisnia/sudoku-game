@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,5 +33,17 @@ public class SudokuPieceTest {
         System.out.println(testBoard.getRow(0).hashCode());
         assertTrue(testBoard.getRow(0).toString()
                 .matches("SudokuRow\\{fields=\\[(SudokuField\\{value=\\d}(,\\s)*){9}]}"));
+    }
+
+    @Test
+    void EqualHashForUnequalObjects() {
+        List<SudokuField> testList = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            testList.add(new SudokuField(0));
+        }
+        SudokuPiece testPiece1 = new SudokuRow(testList);
+        SudokuPiece testPiece2 = new SudokuColumn(testList);
+        assertEquals(new SudokuRow(testList).hashCode(), new SudokuColumn(testList).hashCode());
+        assertNotEquals(testPiece1, testPiece2);
     }
 }
