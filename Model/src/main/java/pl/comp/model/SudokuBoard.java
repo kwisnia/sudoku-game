@@ -1,7 +1,10 @@
+package pl.comp.model;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -11,10 +14,11 @@ import java.util.Random;
 /**
  * The type Sudoku board.
  */
-public class SudokuBoard implements PropertyChangeListener {
+public class SudokuBoard implements PropertyChangeListener, Serializable {
     final List<SudokuField> board = Arrays.asList(new SudokuField[81]);
     private final SudokuSolver sudokuSolver;
     private boolean checkFlag = false;
+
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
         this.sudokuSolver = sudokuSolver;
@@ -32,12 +36,7 @@ public class SudokuBoard implements PropertyChangeListener {
      * @return the number from position
      */
     public int get(int i, int j) {
-        try {
-            return board.get(i * 9 + j).getFieldValue();
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
-        }
-        return -1;
+        return board.get(i * 9 + j).getFieldValue();
     }
 
     public SudokuRow getRow(int y) {
@@ -69,11 +68,7 @@ public class SudokuBoard implements PropertyChangeListener {
         if (number < 0 || number > 9) {
             throw new InputMismatchException("Number must be in range from 1 to 9");
         } else {
-            try {
-                board.get(i * 9 + j).setFieldValue(number);
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println(e.getMessage());
-            }
+            board.get(i * 9 + j).setFieldValue(number);
         }
     }
 
@@ -158,4 +153,5 @@ public class SudokuBoard implements PropertyChangeListener {
     public int hashCode() {
         return Objects.hashCode(board);
     }
+
 }

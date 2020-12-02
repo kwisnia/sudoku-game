@@ -1,4 +1,7 @@
+package pl.comp.model;
+
 import org.junit.jupiter.api.Test;
+import pl.comp.model.SudokuField;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -27,6 +30,6 @@ public class SudokuFieldTest {
     @Test
     void FieldToStringTest() {
         SudokuField testField = new SudokuField(0);
-        assertEquals(testField.toString(), "SudokuField{value=0}");
+        assertEquals("SudokuField{value=0}", testField.toString());
     }
 }

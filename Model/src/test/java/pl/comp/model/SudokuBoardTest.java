@@ -1,4 +1,8 @@
+package pl.comp.model;
+
 import org.junit.jupiter.api.Test;
+import pl.comp.model.BacktrackingSudokuSolver;
+import pl.comp.model.SudokuBoard;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -40,16 +44,6 @@ class SudokuBoardTest {
     }
 
     @Test
-    void getException() {
-        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        try {
-            sudokuBoard.get(10, 10);
-        } catch (IndexOutOfBoundsException e) {
-            assertEquals(e.getMessage(), "Index 10 out of bounds for length 9");
-        }
-    }
-
-    @Test
     void setNumberOutOfRange() {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         try {
@@ -60,16 +54,6 @@ class SudokuBoardTest {
         try {
             sudokuBoard.set(0,0, -1);
         } catch (InputMismatchException e) {
-            assertEquals(e.getMessage(), "Number must be in range from 1 to 9");
-        }
-    }
-
-    @Test
-    void setIndexOutOfRange() {
-        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        try {
-            sudokuBoard.set(10, 10, 2);
-        } catch (IndexOutOfBoundsException e) {
             assertEquals(e.getMessage(), "Number must be in range from 1 to 9");
         }
     }
