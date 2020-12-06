@@ -19,6 +19,7 @@ public class SudokuBoardDaoTest {
             fDao.write(testBoard);
             assertNotEquals(new File("test.txt").length(), 0);
         }
+        System.gc();
     }
     @Test
     void readTest() throws Exception {
@@ -28,5 +29,6 @@ public class SudokuBoardDaoTest {
             fBoardDao.write(testBoard);
             assertEquals(testBoard, fBoardDao.read());
         }
+        System.gc();
     }
 }
