@@ -41,7 +41,7 @@
                     <groupId>org.openjfx</groupId>
                     <artifactId>javafx-maven-plugin</artifactId>
                     <configuration>
-                        <mainClass>pl.comp.view.App</mainClass>
+                        <mainClass>pl.comp.view.Window</mainClass>
                     </configuration>
                 </plugin>
             </plugins>
