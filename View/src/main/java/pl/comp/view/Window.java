@@ -14,8 +14,9 @@ public class Window extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFxml("primary"), 640, 480);
+        scene = new Scene(loadFxml("primary"), 860, 620);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
