@@ -1,14 +1,11 @@
 package pl.comp.model;
 
 import org.junit.jupiter.api.Test;
-import pl.comp.model.BacktrackingSudokuSolver;
-import pl.comp.model.Dao;
-import pl.comp.model.SudokuBoard;
-import pl.comp.model.SudokuBoardDaoFactory;
 
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class SudokuBoardDaoTest {
     @Test

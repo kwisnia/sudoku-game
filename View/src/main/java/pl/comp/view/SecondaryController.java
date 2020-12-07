@@ -13,7 +13,7 @@ public class SecondaryController {
     public GridPane sudokuBoardGrid;
 
     public void initialize() {
-        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver);
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
     }
 
     @FXML

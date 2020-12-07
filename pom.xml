@@ -100,7 +100,6 @@
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
                     <linkXRef>false</linkXRef>
-                    <excludes>**/module-info.java</excludes>
                 </configuration>
                 <reportSets>
                     <reportSet>
