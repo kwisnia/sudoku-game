@@ -1,8 +1,7 @@
 package pl.comp.view;
 
 import java.io.IOException;
-
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -13,12 +12,13 @@ public class PrimaryController {
     public ChoiceBox<String> difficultyChoiceBox;
 
     public void initialize() {
+        difficultyChoiceBox.setOnAction(this::turnOnButton);
         if (difficultyChoiceBox.getValue() == null) {
             primaryButton.setDisable(true);
         }
     }
 
-    public void turnOnButton() {
+    private void turnOnButton(ActionEvent actionEvent) {
         primaryButton.setDisable(false);
     }
 
