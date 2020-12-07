@@ -96,4 +96,13 @@ class SudokuBoardTest {
         assertEquals(sudokuBoard.hashCode(), sudokuBoard1.hashCode());
     }
 
+    @Test
+    void BoardCloneTest() {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard sudokuBoardClone = sudokuBoard.clone();
+        assertEquals(sudokuBoard, sudokuBoardClone);
+        sudokuBoard.set(0, 0, 3);
+        assertNotEquals(sudokuBoard, sudokuBoardClone);
+    }
+
 }

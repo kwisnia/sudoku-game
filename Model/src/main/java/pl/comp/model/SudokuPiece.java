@@ -2,11 +2,12 @@ package pl.comp.model;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class SudokuPiece {
+public abstract class SudokuPiece implements Serializable, Cloneable {
     public SudokuPiece(List<SudokuField> fields) {
         this.fields = fields;
     }

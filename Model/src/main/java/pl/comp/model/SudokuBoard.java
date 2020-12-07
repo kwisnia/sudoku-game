@@ -4,6 +4,11 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -14,7 +19,7 @@ import java.util.Random;
 /**
  * The type Sudoku board.
  */
-public class SudokuBoard implements PropertyChangeListener, Serializable {
+public class SudokuBoard implements PropertyChangeListener, Serializable, Cloneable {
     final List<SudokuField> board = Arrays.asList(new SudokuField[81]);
     private final SudokuSolver sudokuSolver;
     private boolean checkFlag = false;
@@ -177,4 +182,18 @@ public class SudokuBoard implements PropertyChangeListener, Serializable {
         return Objects.hashCode(board);
     }
 
+    @Override
+    public SudokuBoard clone() {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+                oos.writeObject(this);
+                try (ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                ObjectInputStream ois = new ObjectInputStream(bais)) {
+                    return (SudokuBoard) ois.readObject();
+                }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

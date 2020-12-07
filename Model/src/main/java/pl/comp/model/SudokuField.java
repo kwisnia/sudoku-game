@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
-public class SudokuField implements Serializable {
+public class SudokuField implements Comparable<SudokuField>, Serializable, Cloneable {
     private int value;
 
     private final PropertyChangeSupport support;
@@ -52,5 +52,10 @@ public class SudokuField implements Serializable {
         return MoreObjects.toStringHelper(this)
                 .add("value", value)
                 .toString();
+    }
+
+    @Override
+    public int compareTo(SudokuField o) {
+        return this.value - o.value;
     }
 }
