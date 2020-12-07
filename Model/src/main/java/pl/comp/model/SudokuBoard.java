@@ -18,7 +18,11 @@ public class SudokuBoard implements PropertyChangeListener, Serializable {
     final List<SudokuField> board = Arrays.asList(new SudokuField[81]);
     private final SudokuSolver sudokuSolver;
     private boolean checkFlag = false;
+    private Difficulty difficulty;
 
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
         this.sudokuSolver = sudokuSolver;
@@ -97,6 +101,25 @@ public class SudokuBoard implements PropertyChangeListener, Serializable {
         initializeBoard();
         sudokuSolver.solve(this);
         checkBoard();
+    }
+
+    public void clearFields() {
+        int counter = 0;
+        int loops;
+        Random random = new Random();
+        switch (difficulty) {
+            case EASY -> loops = 18;
+            case MEDIUM -> loops = 36;
+            case HARD -> loops = 48;
+            default -> throw new IllegalStateException("Unexpected value: " + difficulty);
+        }
+        while (counter < loops){
+            int[] positions = {random.nextInt(8), random.nextInt(8)};
+            if (board.get(positions[0] * 9 + positions[1]).getFieldValue() != 0) {
+                board.get(positions[0] * 9 + positions[1]).setFieldValue(0);
+                counter++;
+            }
+        }
     }
 
     @Override
