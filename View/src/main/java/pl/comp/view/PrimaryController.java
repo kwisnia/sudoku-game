@@ -10,10 +10,25 @@ import javafx.scene.control.ChoiceBox;
 public class PrimaryController {
 
     public Button primaryButton;
-    public ChoiceBox difficultyChoiceBox;
+    public ChoiceBox<String> difficultyChoiceBox;
+
+    public void initialize() {
+        if (difficultyChoiceBox.getValue() == null) {
+            primaryButton.setDisable(true);
+        }
+    }
+
+    public void turnOnButton() {
+        primaryButton.setDisable(false);
+    }
 
     @FXML
     private void switchToSecondary() throws IOException {
         Window.setRoot("secondary");
+//        switch (difficultyChoiceBox.getValue()) {
+//
+//
+//        }
     }
+
 }

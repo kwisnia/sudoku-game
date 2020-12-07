@@ -1,7 +1,10 @@
 .choice-box {
     -fx-pref-width: 150;
+    -fx-border-color: black;
+    -fx-font-family: "Comic Sans MS";
 }
 
 .choice-box, .context-menu {
     -fx-pref-width: 150;
+    -fx-font-family: "Comic Sans MS";
 }

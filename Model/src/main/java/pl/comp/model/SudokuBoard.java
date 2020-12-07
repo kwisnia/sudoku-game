@@ -113,7 +113,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable {
             case HARD -> loops = 48;
             default -> throw new IllegalStateException("Unexpected value: " + difficulty);
         }
-        while (counter < loops){
+        while (counter < loops) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
             if (board.get(positions[0] * 9 + positions[1]).getFieldValue() != 0) {
                 board.get(positions[0] * 9 + positions[1]).setFieldValue(0);
