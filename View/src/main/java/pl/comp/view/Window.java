@@ -24,8 +24,8 @@ public class Window extends Application {
         scene.setRoot(getFxmlLoader(fxml).load());
     }
 
-    static void setRoot(FXMLLoader loader) throws IOException {
-        scene.setRoot(loader.load());
+    static void setRoot(Parent p) {
+        scene.setRoot(p);
     }
 
     public static FXMLLoader getFxmlLoader(String fxml) {

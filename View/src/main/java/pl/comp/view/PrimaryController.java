@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import pl.comp.model.Difficulty;
@@ -28,6 +29,7 @@ public class PrimaryController {
     private void switchToSecondary() throws IOException {
 
         FXMLLoader secondary = Window.getFxmlLoader("secondary");
+        Parent p = secondary.load();
         SecondaryController boardView = secondary.getController();
         switch (difficultyChoiceBox.getValue()) {
             case "Easy":
@@ -37,7 +39,7 @@ public class PrimaryController {
             case "Hard":
                 boardView.setDifficulty(Difficulty.HARD);
         }
-        Window.setRoot(secondary);
+        Window.setRoot(p);
     }
 
 }
