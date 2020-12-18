@@ -33,10 +33,13 @@ public class PrimaryController {
         switch (difficultyChoiceBox.getValue()) {
             case "Easy":
                 boardView.setDifficulty(Difficulty.EASY);
+                break;
             case "Medium":
                 boardView.setDifficulty(Difficulty.MEDIUM);
+                break;
             case "Hard":
                 boardView.setDifficulty(Difficulty.HARD);
+                break;
         }
         boardView.startGame();
         Window.setRoot(p);

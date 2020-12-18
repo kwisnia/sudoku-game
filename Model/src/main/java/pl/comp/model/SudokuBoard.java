@@ -89,7 +89,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
         Random random = new Random();
         int insertedNumber = 1;
         while (insertedNumber <= 9) {
-            int[] positions = {random.nextInt(8), random.nextInt(8)};
+            int[] positions = {random.nextInt(9), random.nextInt(9)};
             if (board.get(positions[0] * 9 + positions[1]).getFieldValue() == 0) {
                 board.get(positions[0] * 9 + positions[1]).setFieldValue(insertedNumber);
                 insertedNumber++;
@@ -114,12 +114,11 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
         Random random = new Random();
         switch (difficulty) {
             case EASY -> loops = 18;
-            case MEDIUM -> loops = 36;
             case HARD -> loops = 48;
-            default -> throw new IllegalStateException("Unexpected value: " + difficulty);
+            default -> loops = 36;
         }
         while (counter < loops) {
-            int[] positions = {random.nextInt(8), random.nextInt(8)};
+            int[] positions = {random.nextInt(9), random.nextInt(9)};
             if (board.get(positions[0] * 9 + positions[1]).getFieldValue() != 0) {
                 board.get(positions[0] * 9 + positions[1]).setFieldValue(0);
                 counter++;
