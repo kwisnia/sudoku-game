@@ -38,6 +38,7 @@ public class PrimaryController {
             case "Hard":
                 boardView.setDifficulty(Difficulty.HARD);
         }
+        boardView.startGame();
         Window.setRoot(p);
     }
 

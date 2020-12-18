@@ -20,9 +20,6 @@ public class SecondaryController {
     }
 
     public void initialize() {
-        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudokuBoard.setDifficulty(difficulty);
-        sudokuBoard.clearFields();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 sudokuBoardGrid.add(new TextField(), i, j);
@@ -34,4 +31,13 @@ public class SecondaryController {
     private void switchToPrimary() throws IOException {
         Window.setRoot("primary");
     }
+
+    public void startGame() {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.setDifficulty(difficulty);
+        sudokuBoard.solveGame();
+        sudokuBoard.clearFields();
+    }
+
+
 }
