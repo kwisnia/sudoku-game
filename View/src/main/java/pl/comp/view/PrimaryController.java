@@ -27,7 +27,6 @@ public class PrimaryController {
 
     @FXML
     private void switchToSecondary() throws IOException {
-
         FXMLLoader secondary = Window.getFxmlLoader("secondary");
         Parent p = secondary.load();
         SecondaryController boardView = secondary.getController();
