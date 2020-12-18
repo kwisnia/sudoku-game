@@ -16,6 +16,7 @@ public class Window extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(getFxmlLoader("primary").load(), 860, 620);
         stage.setScene(scene);
+        stage.setTitle("Sudoku Game");
         stage.setResizable(false);
         stage.show();
     }

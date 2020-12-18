@@ -2,6 +2,7 @@
     -fx-background-color: #F2DA8A;
     -fx-border-color: black;
     -fx-font-family: "Comic Sans MS";
+    -fx-padding: 10px;
 }
 
 .button {
@@ -11,12 +12,8 @@
     -fx-background-radius: 15px;
 }
 
-.text-field {
-    -fx-padding: 5 5 5 5;
-    -fx-background-color: -fx-text-box-border, -fx-background ;
-    -fx-pref-width: 25px;
-}
-
-.text-field:focused {
-    -fx-background-color: -fx-text-box-border, -fx-background ;
+.sudokuBoardGrid {
+    -fx-border-color: #000000;
+    -fx-background-color: #F0EBD7;
+    -fx-grid-lines-visible: true;
 }
