@@ -14,19 +14,22 @@ public class Window extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFxml("primary"), 860, 620);
+        scene = new Scene(getFxmlLoader("primary").load(), 860, 620);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFxml(fxml));
+        scene.setRoot(getFxmlLoader(fxml).load());
     }
 
-    private static Parent loadFxml(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Window.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    static void setRoot(FXMLLoader loader) throws IOException {
+        scene.setRoot(loader.load());
+    }
+
+    public static FXMLLoader getFxmlLoader(String fxml) {
+        return new FXMLLoader(Window.class.getResource(fxml + ".fxml"));
     }
 
     public static void main(String[] args) {

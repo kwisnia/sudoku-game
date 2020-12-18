@@ -1,7 +1,6 @@
 package pl.comp.model;
 
 import org.junit.jupiter.api.Test;
-import pl.comp.model.*;
 
 import java.util.ArrayList;
 import java.util.List;

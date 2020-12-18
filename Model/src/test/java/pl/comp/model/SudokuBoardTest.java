@@ -105,4 +105,33 @@ class SudokuBoardTest {
         assertNotEquals(sudokuBoard, sudokuBoardClone);
     }
 
+    @Test
+    void BoardDifficultyTest() {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.solveGame();
+        sudokuBoard.setDifficulty(Difficulty.EASY);
+        sudokuBoard.clearFields();
+        assertEquals(18, checkEmptySpots(sudokuBoard));
+        sudokuBoard.solveGame();
+        sudokuBoard.setDifficulty(Difficulty.MEDIUM);
+        sudokuBoard.clearFields();
+        assertEquals(36, checkEmptySpots(sudokuBoard));
+        sudokuBoard.solveGame();
+        sudokuBoard.setDifficulty(Difficulty.HARD);
+        sudokuBoard.clearFields();
+        assertEquals(48, checkEmptySpots(sudokuBoard));
+    }
+
+    private int checkEmptySpots(SudokuBoard sudokuBoard) {
+        int counter = 0;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (sudokuBoard.get(i, j) == 0) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
 }

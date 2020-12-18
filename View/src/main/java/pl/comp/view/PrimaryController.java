@@ -3,8 +3,10 @@ package pl.comp.view;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import pl.comp.model.Difficulty;
 
 public class PrimaryController {
 
@@ -24,11 +26,18 @@ public class PrimaryController {
 
     @FXML
     private void switchToSecondary() throws IOException {
-        Window.setRoot("secondary");
-//        switch (difficultyChoiceBox.getValue()) {
-//
-//
-//        }
+
+        FXMLLoader secondary = Window.getFxmlLoader("secondary");
+        SecondaryController boardView = secondary.getController();
+        switch (difficultyChoiceBox.getValue()) {
+            case "Easy":
+                boardView.setDifficulty(Difficulty.EASY);
+            case "Medium":
+                boardView.setDifficulty(Difficulty.MEDIUM);
+            case "Hard":
+                boardView.setDifficulty(Difficulty.HARD);
+        }
+        Window.setRoot(secondary);
     }
 
 }
