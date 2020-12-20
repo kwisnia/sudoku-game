@@ -2,9 +2,9 @@ package pl.comp.view;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -14,6 +14,7 @@ import pl.comp.model.SudokuBoard;
 
 public class SecondaryController {
 
+    private static final String REGEX_VALID_INTEGER = "[1-9]?";
     public Button secondaryButton;
     public GridPane sudokuBoardGrid;
     private Difficulty difficulty;
@@ -48,8 +49,21 @@ public class SecondaryController {
                     textField.setStyle("-fx-background-color: #F0EBD7;-fx-opacity: 100%;-fx-alignment: center;-fx-border-style: solid");
                     textField.setText(String.valueOf(sudokuBoard.get(i, j)));
                 }
+                textField.setOnKeyPressed(e -> {
+                    if (e.getText().matches("[1-9]")) {
+                        textField.setText(e.getCharacter());
+                    }
+                });
+                textField.setTextFormatter(new TextFormatter<>(this::filter));
                 sudokuBoardGrid.add(textField, i, j);
             }
         }
+    }
+
+    private TextFormatter.Change filter(TextFormatter.Change change) {
+        if (!change.getControlNewText().matches(REGEX_VALID_INTEGER)) {
+            change.setText("");
+        }
+        return change;
     }
 }
