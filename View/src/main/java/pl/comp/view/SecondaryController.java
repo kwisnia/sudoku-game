@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import pl.comp.model.BacktrackingSudokuSolver;
@@ -70,14 +69,14 @@ public class SecondaryController {
                     }
                 }});
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
-                sudokuBoardGrid.add(textField, i, j);
+                sudokuBoardGrid.add(textField, j, i);
             }
         }
     }
 
     public void resetGame() {
         for (Node c :
-                sudokuBoardGrid.getChildren()) {
+                sudokuBoardGrid.getChildren().subList(0, 81)) {
             if (startBoard.get(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) == 0) {
                 ((TextField) c).setText("");
             }
