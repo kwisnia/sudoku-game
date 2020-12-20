@@ -20,7 +20,7 @@ import java.util.Random;
  * The type Sudoku board.
  */
 public class SudokuBoard implements PropertyChangeListener, Serializable, Cloneable {
-    final List<SudokuField> board = Arrays.asList(new SudokuField[81]);
+    private final List<SudokuField> board = Arrays.asList(new SudokuField[81]);
     private final SudokuSolver sudokuSolver;
     private boolean checkFlag = false;
     private Difficulty difficulty;

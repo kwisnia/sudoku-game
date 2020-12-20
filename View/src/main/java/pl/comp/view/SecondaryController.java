@@ -1,13 +1,13 @@
 package pl.comp.view;
 
 import java.io.IOException;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import pl.comp.model.BacktrackingSudokuSolver;
@@ -19,13 +19,12 @@ public class SecondaryController {
     private static final String REGEX_VALID_INTEGER = "[1-9]?";
     public Button secondaryButton;
     public GridPane sudokuBoardGrid;
-    public Button ResetButton;
-    private Difficulty difficulty;
     private final SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
     private SudokuBoard sudokuBoardClone;
+    private SudokuBoard startBoard;
 
     public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
+        this.sudokuBoard.setDifficulty(difficulty);
     }
 
     @FXML
@@ -34,10 +33,10 @@ public class SecondaryController {
     }
 
     public void startGame() {
-        sudokuBoard.setDifficulty(difficulty);
         sudokuBoard.solveGame();
         sudokuBoardClone = sudokuBoard.clone();
         sudokuBoard.clearFields();
+        startBoard = sudokuBoard.clone();
         fillGrid();
     }
 
@@ -50,16 +49,37 @@ public class SecondaryController {
                 textField.setStyle("-fx-background-color: #F0EBD7;-fx-alignment: center; -fx-border-style: solid");
                 if (sudokuBoard.get(i, j) != 0) {
                     textField.setDisable(true);
-                    textField.setStyle("-fx-background-color: #F0EBD7;-fx-opacity: 100%;-fx-alignment: center;-fx-border-style: solid");
+                    textField.setStyle("-fx-background-color: #F0EBD7;" +
+                            "-fx-opacity: 100%;" +
+                            "-fx-alignment: center;" +
+                            "-fx-border-style: solid");
                     textField.setText(String.valueOf(sudokuBoard.get(i, j)));
                 }
                 textField.setOnKeyPressed(e -> {
                     if (e.getText().matches("[1-9]")) {
-                        textField.setText(e.getCharacter());
+                        textField.setText(e.getText());
                     }
                 });
+                textField.setOnKeyReleased(e -> {
+                    if (textField.getLength() != 0) {
+                    int insertedNumber = Integer.parseInt(textField.getText());
+                    int row = GridPane.getRowIndex(textField);
+                    int column = GridPane.getColumnIndex(textField);
+                    if (insertedNumber != sudokuBoard.get(row,column)) {
+                        sudokuBoard.set(row, column, insertedNumber);
+                    }
+                }});
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
                 sudokuBoardGrid.add(textField, i, j);
+            }
+        }
+    }
+
+    public void resetGame() {
+        for (Node c :
+                sudokuBoardGrid.getChildren()) {
+            if (startBoard.get(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) == 0) {
+                ((TextField) c).setText("");
             }
         }
     }
@@ -69,9 +89,5 @@ public class SecondaryController {
             change.setText("");
         }
         return change;
-    }
-
-    public void reset() {
-
     }
 }
