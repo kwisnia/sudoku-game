@@ -12,7 +12,7 @@ public abstract class SudokuPiece implements Serializable, Cloneable {
         this.fields = fields;
     }
 
-    List<SudokuField> fields;
+    private final List<SudokuField> fields;
 
     public boolean verify() {
         Set<Integer> usedNumbers = new HashSet<>();
@@ -48,5 +48,10 @@ public abstract class SudokuPiece implements Serializable, Cloneable {
         return MoreObjects.toStringHelper(this)
                 .add("fields", fields)
                 .toString();
+    }
+
+    @Override
+    public SudokuPiece clone() throws CloneNotSupportedException {
+        return (SudokuPiece) super.clone();
     }
 }

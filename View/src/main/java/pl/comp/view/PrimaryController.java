@@ -35,6 +35,7 @@ public class PrimaryController {
                 boardView.setDifficulty(Difficulty.EASY);
                 break;
             case "Medium":
+            default:
                 boardView.setDifficulty(Difficulty.MEDIUM);
                 break;
             case "Hard":

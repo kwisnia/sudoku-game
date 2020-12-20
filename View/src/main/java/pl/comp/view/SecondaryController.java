@@ -18,8 +18,8 @@ public class SecondaryController {
     private static final String REGEX_VALID_INTEGER = "[1-9]?";
     public Button secondaryButton;
     public GridPane sudokuBoardGrid;
-    private SudokuBoard currentBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-    private SudokuBoard sudokuBoardClone;
+    private final SudokuBoard currentBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+    private SudokuBoard solvedBoard;
     private SudokuBoard startBoard;
 
     public void setDifficulty(Difficulty difficulty) {
@@ -33,7 +33,7 @@ public class SecondaryController {
 
     public void startGame() {
         currentBoard.solveGame();
-        sudokuBoardClone = currentBoard.clone();
+        solvedBoard = currentBoard.clone();
         currentBoard.clearFields();
         startBoard = currentBoard.clone();
         fillGrid();
@@ -45,13 +45,15 @@ public class SecondaryController {
                 TextField textField = new TextField();
                 textField.setMaxSize(100, 65);
                 textField.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 24));
-                textField.setStyle("-fx-background-color: #F0EBD7;-fx-alignment: center; -fx-border-style: solid");
+                textField.setStyle("-fx-background-color: #F0EBD7;"
+                        + "-fx-alignment: center;"
+                        + " -fx-border-style: solid");
                 if (currentBoard.get(i, j) != 0) {
                     textField.setDisable(true);
-                    textField.setStyle("-fx-background-color: #F0EBD7;" +
-                            "-fx-opacity: 100%;" +
-                            "-fx-alignment: center;" +
-                            "-fx-border-style: solid");
+                    textField.setStyle("-fx-background-color: #F0EBD7;"
+                            + "-fx-opacity: 100%;"
+                            + "-fx-alignment: center;"
+                            + "-fx-border-style: solid");
                     textField.setText(String.valueOf(currentBoard.get(i, j)));
                 }
                 textField.setOnKeyPressed(e -> {
