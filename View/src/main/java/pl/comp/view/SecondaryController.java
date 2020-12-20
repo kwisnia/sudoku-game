@@ -1,6 +1,8 @@
 package pl.comp.view;
 
 import java.io.IOException;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,9 +19,11 @@ public class SecondaryController {
     private static final String REGEX_VALID_INTEGER = "[1-9]?";
     public Button secondaryButton;
     public GridPane sudokuBoardGrid;
+    public Button ResetButton;
     private Difficulty difficulty;
     private final SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
     private SudokuBoard sudokuBoardClone;
+
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
@@ -65,5 +69,9 @@ public class SecondaryController {
             change.setText("");
         }
         return change;
+    }
+
+    public void reset() {
+
     }
 }
