@@ -1,5 +1,6 @@
 package pl.comp.view;
 
+import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,11 +10,14 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import pl.comp.model.BacktrackingSudokuSolver;
 import pl.comp.model.Difficulty;
+import pl.comp.model.FileSudokuBoardDao;
 import pl.comp.model.SudokuBoard;
 
-public class SecondaryController {
+public class SecondaryController extends javafx.stage.Window {
 
     private static final String REGEX_VALID_INTEGER = "[1-9]?";
     public Button secondaryButton;
@@ -21,6 +25,7 @@ public class SecondaryController {
     private final SudokuBoard currentBoard = new SudokuBoard(new BacktrackingSudokuSolver());
     private SudokuBoard solvedBoard;
     private SudokuBoard startBoard;
+    final FileChooser fileChooser = new FileChooser();
 
     public void setDifficulty(Difficulty difficulty) {
         this.currentBoard.setDifficulty(difficulty);
@@ -79,8 +84,7 @@ public class SecondaryController {
     }
 
     public void resetGame() {
-        for (Node c :
-                sudokuBoardGrid.getChildren().subList(0, 81)) {
+        for (Node c : sudokuBoardGrid.getChildren().subList(0, 81)) {
             if (startBoard.get(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) == 0) {
                 ((TextField) c).setText("");
             }
@@ -92,5 +96,41 @@ public class SecondaryController {
             change.setText("");
         }
         return change;
+    }
+
+    public void load() {
+        try {
+            File loadedFile = fileChooser.showOpenDialog(this);
+            fileChooser.setTitle("Wczytaj plik");
+            FileSudokuBoardDao fsdb = new FileSudokuBoardDao(loadedFile.getAbsolutePath());
+            SudokuBoard loadedBoard = fsdb.read();
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    for (Node k: sudokuBoardGrid.getChildren().subList(0, 81)) {
+                        TextField field = (TextField) k;
+                        field.setDisable(false);
+                        if (currentBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k)) != 0) {
+                            field.setDisable(true);
+                            field.setText(String.valueOf(loadedBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k))));
+                        } else {
+                            field.setText("");
+                        }
+                    }
+                }
+            }
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            new Popup().setOnShown(f -> e.printStackTrace());
+        }
+    }
+
+    public void save() {
+        try {
+            File saveFile = fileChooser.showSaveDialog(this);
+            fileChooser.setTitle("Zapisz do pliku");
+            FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
+            fsbd.write(this.currentBoard);
+        } catch (IOException | NullPointerException e) {
+            new Popup().setOnShown(f -> e.printStackTrace());
+        }
     }
 }
