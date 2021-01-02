@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -108,9 +106,9 @@ public class SecondaryController extends javafx.stage.Window {
                 for (int j = 0; j < 9; j++) {
                     for (Node k: sudokuBoardGrid.getChildren().subList(0, 81)) {
                         TextField field = (TextField) k;
-                        field.setDisable(false);
+                        field.setEditable(true);
                         if (currentBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k)) != 0) {
-                            field.setDisable(true);
+                            field.setEditable(false);
                             field.setText(String.valueOf(loadedBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k))));
                         } else {
                             field.setText("");
@@ -119,7 +117,8 @@ public class SecondaryController extends javafx.stage.Window {
                 }
             }
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
-            new Popup().setOnShown(f -> e.printStackTrace());
+            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -130,7 +129,8 @@ public class SecondaryController extends javafx.stage.Window {
             FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
             fsbd.write(this.currentBoard);
         } catch (IOException | NullPointerException e) {
-            new Popup().setOnShown(f -> e.printStackTrace());
+            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
         }
     }
 }
