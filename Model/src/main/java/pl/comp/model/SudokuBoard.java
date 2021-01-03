@@ -2,6 +2,8 @@ package pl.comp.model;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import javafx.beans.property.IntegerProperty;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayInputStream;
@@ -9,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -47,6 +50,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
     public int get(int i, int j) {
         return board.get(i * 9 + j).getFieldValue();
     }
+    public IntegerProperty getProperty(int i, int j) { return board.get(i * 9 + j).getValueProperty(); }
 
     public SudokuRow getRow(int y) {
         return new SudokuRow(board.subList(y * 9, y * 9 + 9));
@@ -158,6 +162,28 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
         return true;
     }
 
+    public String printBoard() {
+        StringBuilder stringBuilder = new StringBuilder();
+        final String horizontalBreak = "-------------------------\n";
+        stringBuilder.append(horizontalBreak);
+        for (int i = 0; i < 9; i++) {
+            if (i == 3 || i == 6) {
+                stringBuilder.append(horizontalBreak);
+            }
+            stringBuilder.append("| ");
+            for (int j = 0; j < 9; j++) {
+                stringBuilder.append(board.get(i * 9 + j).getFieldValue())
+                        .append(" ");
+                if (j == 2 || j == 5) {
+                    stringBuilder.append("| ");
+                }
+            }
+            stringBuilder.append("|\n");
+        }
+        stringBuilder.append(horizontalBreak);
+        return stringBuilder.toString();
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
         if (checkFlag && !this.checkBoard()) {
             System.out.println("Wrong input: " + evt.getNewValue());
@@ -194,5 +220,22 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Serial
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        for (SudokuField field :
+                board) {
+            oos.writeInt(field.getFieldValue());
+        }
+    }
+
+    @Serial
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        for (int i = 0; i < 81; i++) {
+            board.set(i, new SudokuField(ois.readInt()));
+        }
     }
 }

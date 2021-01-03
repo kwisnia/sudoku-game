@@ -2,6 +2,9 @@ package pl.comp.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -9,6 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
 import pl.comp.model.BacktrackingSudokuSolver;
 import pl.comp.model.Difficulty;
 import pl.comp.model.FileSudokuBoardDao;
@@ -19,9 +24,10 @@ public class SecondaryController extends javafx.stage.Window {
     private static final String REGEX_VALID_INTEGER = "[1-9]?";
     public Button secondaryButton;
     public GridPane sudokuBoardGrid;
-    private final SudokuBoard currentBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+    private SudokuBoard currentBoard = new SudokuBoard(new BacktrackingSudokuSolver());
     private SudokuBoard solvedBoard;
     private SudokuBoard startBoard;
+    private final StringConverter<Number> converter = new NumberStringConverter();
     final FileChooser fileChooser = new FileChooser();
 
     public void setDifficulty(Difficulty difficulty) {
@@ -56,7 +62,6 @@ public class SecondaryController extends javafx.stage.Window {
                             + "-fx-opacity: 100%;"
                             + "-fx-alignment: center;"
                             + "-fx-border-style: solid");
-                    textField.setText(String.valueOf(currentBoard.get(i, j)));
                 }
                 textField.setOnKeyPressed(e -> {
                     if (e.getText().matches("[1-9]")) {
@@ -64,17 +69,7 @@ public class SecondaryController extends javafx.stage.Window {
                     }
                 });
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
-                textField.textProperty().addListener((observableValue, s, t1) -> {
-                    try {
-                        currentBoard.set(GridPane.getRowIndex(textField),
-                                GridPane.getColumnIndex(textField),
-                                Integer.parseInt(t1));
-                    } catch (NumberFormatException e) {
-                        currentBoard.set(GridPane.getRowIndex(textField),
-                                GridPane.getColumnIndex(textField),
-                                0);
-                    }
-                });
+                Bindings.bindBidirectional(textField.textProperty(), currentBoard.getProperty(i, j), converter);
                 sudokuBoardGrid.add(textField, j, i);
             }
         }
@@ -97,28 +92,31 @@ public class SecondaryController extends javafx.stage.Window {
 
     public void load() {
         try {
-            File loadedFile = fileChooser.showOpenDialog(this);
             fileChooser.setTitle("Wczytaj plik");
-            FileSudokuBoardDao fsdb = new FileSudokuBoardDao(loadedFile.getAbsolutePath());
-            SudokuBoard loadedBoard = fsdb.read();
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    for (Node k: sudokuBoardGrid.getChildren().subList(0, 81)) {
-                        TextField field = (TextField) k;
-                        field.setEditable(true);
-                        if (currentBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k)) != 0) {
-                            field.setEditable(false);
-                            field.setText(String.valueOf(loadedBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k))));
-                        } else {
-                            field.setText("");
-                        }
+            File loadedFile = fileChooser.showOpenDialog(this);
+            try (FileSudokuBoardDao fsdb = new FileSudokuBoardDao(loadedFile.getAbsolutePath())) {
+                currentBoard = fsdb.read();
+                startBoard = fsdb.read();
+                for (Node k : sudokuBoardGrid.getChildren().subList(0, 81)) {
+                    TextField field = (TextField) k;
+                    field.setEditable(true);
+                    Bindings.bindBidirectional(field.textProperty(),
+                            currentBoard.getProperty(GridPane.getRowIndex(k), GridPane.getColumnIndex(k)), converter);
+                    if (currentBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k)) ==
+                            startBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k))) {
+                        field.setEditable(false);
                     }
                 }
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.NONE, "Error reading file!", ButtonType.OK);
+                alert.showAndWait();
             }
-        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
             alert.showAndWait();
         }
+        System.out.println(currentBoard.printBoard());
+        System.out.println(startBoard.printBoard());
     }
 
     public void save() {
@@ -127,6 +125,7 @@ public class SecondaryController extends javafx.stage.Window {
             fileChooser.setTitle("Zapisz do pliku");
             FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
             fsbd.write(this.currentBoard);
+            fsbd.write(this.startBoard);
         } catch (IOException | NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
             alert.showAndWait();

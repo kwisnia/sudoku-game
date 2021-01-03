@@ -4,21 +4,24 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import java.io.Serializable;
 
 public class SudokuField implements Comparable<SudokuField>, Serializable, Cloneable {
-    private int value;
-
+    private final transient IntegerProperty value = new SimpleIntegerProperty();
     private final PropertyChangeSupport support;
 
     public int getFieldValue() {
+        return value.get();
+    }
+
+    public IntegerProperty getValueProperty() {
         return value;
     }
 
     public void setFieldValue(int value) {
-        int oldValue = this.value;
-        this.value = value;
-        support.firePropertyChange("value", oldValue, value);
+        this.value.setValue(value);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -26,8 +29,9 @@ public class SudokuField implements Comparable<SudokuField>, Serializable, Clone
     }
 
     public SudokuField(int value) {
-        this.value = value;
+        this.value.setValue(value);
         support = new PropertyChangeSupport(this);
+        this.value.addListener((observableValue, number, t1) -> support.firePropertyChange("value", number, t1));
     }
 
     @Override
@@ -39,24 +43,24 @@ public class SudokuField implements Comparable<SudokuField>, Serializable, Clone
             return false;
         }
         SudokuField that = (SudokuField) o;
-        return value == that.value;
+        return value.get() == that.value.get();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(value);
+        return Objects.hashCode(value.get());
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("value", value)
+                .add("value", value.get())
                 .toString();
     }
 
     @Override
     public int compareTo(SudokuField o) {
-        return Integer.compare(this.value, o.getFieldValue());
+        return Integer.compare(this.value.get(), o.getFieldValue());
     }
 
     @Override
