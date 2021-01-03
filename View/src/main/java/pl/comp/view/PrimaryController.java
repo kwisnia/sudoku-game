@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.VBox;
 import pl.comp.model.Difficulty;
 
 public class PrimaryController {
@@ -46,4 +45,13 @@ public class PrimaryController {
         Window.setRoot(p);
     }
 
+    public void loadEnglish() {
+    }
+
+    public void loadPL() {
+    }
+
+    public void loadFR() {
+
+    }
 }
