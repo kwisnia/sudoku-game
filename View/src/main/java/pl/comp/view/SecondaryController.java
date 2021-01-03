@@ -9,7 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
 import pl.comp.model.BacktrackingSudokuSolver;
 import pl.comp.model.Difficulty;
 import pl.comp.model.FileSudokuBoardDao;
@@ -117,7 +116,7 @@ public class SecondaryController extends javafx.stage.Window {
                 }
             }
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE, "Nie wybrano pliku!", ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -129,7 +128,7 @@ public class SecondaryController extends javafx.stage.Window {
             FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
             fsbd.write(this.currentBoard);
         } catch (IOException | NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE, "Nie wybrano pliku!", ButtonType.OK);
             alert.showAndWait();
         }
     }
