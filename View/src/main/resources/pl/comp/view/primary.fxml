@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -26,8 +28,26 @@
                  </items>
          </ChoiceBox>
          <Button fx:id="primaryButton" onAction="#switchToSecondary" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000;" text="Start" />
+         <RadioButton fx:id="engButton" mnemonicParsing="false" onAction="#loadEnglish" prefHeight="18.0" prefWidth="49.0" selected="true" text="ENG">
+            <font>
+               <Font name="Comic Sans MS Bold" size="12.0" />
+            </font>
+            <toggleGroup>
+               <ToggleGroup fx:id="languageGroup" />
+            </toggleGroup>
+         </RadioButton>
+         <RadioButton fx:id="plButton" mnemonicParsing="false" onAction="#loadPL" prefHeight="18.0" prefWidth="51.0" text="PL" toggleGroup="$languageGroup">
+            <font>
+               <Font name="Comic Sans MS Bold" size="12.0" />
+            </font>
+         </RadioButton>
+         <RadioButton fx:id="frButton" mnemonicParsing="false" onAction="#loadFR" prefHeight="18.0" prefWidth="52.0" text="FR" toggleGroup="$languageGroup">
+            <font>
+               <Font name="Comic Sans MS Bold" size="12.0" />
+            </font>
+         </RadioButton>
       </VBox>
-      <Label prefHeight="18.0" prefWidth="860.0" text="Sudoku Project" textAlignment="CENTER">
+      <Label prefHeight="168.0" prefWidth="860.0" text="Sudoku Game" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
