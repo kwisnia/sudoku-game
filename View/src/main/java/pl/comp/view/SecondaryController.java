@@ -116,7 +116,7 @@ public class SecondaryController extends javafx.stage.Window {
                 }
             }
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "Nie wybrano pliku!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -128,7 +128,7 @@ public class SecondaryController extends javafx.stage.Window {
             FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
             fsbd.write(this.currentBoard);
         } catch (IOException | NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "Nie wybrano pliku!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
             alert.showAndWait();
         }
     }
