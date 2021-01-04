@@ -4,9 +4,9 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import java.io.Serializable;
 
 public class SudokuField implements Comparable<SudokuField>, Serializable, Cloneable {
     private final transient IntegerProperty value = new SimpleIntegerProperty();
@@ -31,7 +31,8 @@ public class SudokuField implements Comparable<SudokuField>, Serializable, Clone
     public SudokuField(int value) {
         this.value.setValue(value);
         support = new PropertyChangeSupport(this);
-        this.value.addListener((observableValue, number, t1) -> support.firePropertyChange("value", number, t1));
+        this.value.addListener((observableValue, number, t1) ->
+                support.firePropertyChange("value", number, t1));
     }
 
     @Override

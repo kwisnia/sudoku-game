@@ -2,8 +2,7 @@ package pl.comp.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-
+import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -29,6 +28,11 @@ public class SecondaryController extends javafx.stage.Window {
     private SudokuBoard startBoard;
     private final StringConverter<Number> converter = new NumberStringConverter();
     final FileChooser fileChooser = new FileChooser();
+    private ResourceBundle bundle;
+
+    public void initialize() {
+        bundle = ResourceBundle.getBundle("pl/comp/view/Sudoku");
+    }
 
     public void setDifficulty(Difficulty difficulty) {
         this.currentBoard.setDifficulty(difficulty);
@@ -109,15 +113,15 @@ public class SecondaryController extends javafx.stage.Window {
                     }
                 }
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.NONE, "Error reading file!", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("readingFile"), ButtonType.OK);
                 alert.setResizable(false);
-                alert.setTitle("Error");
+                alert.setTitle(bundle.getString("error"));
                 alert.showAndWait();
             }
         } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("noFileChosen"), ButtonType.OK);
             alert.setResizable(false);
-            alert.setTitle("Error");
+            alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
         }
         System.out.println(currentBoard.printBoard());
@@ -127,14 +131,14 @@ public class SecondaryController extends javafx.stage.Window {
     public void save() {
         try {
             File saveFile = fileChooser.showSaveDialog(this);
-            fileChooser.setTitle("Save file");
+            fileChooser.setTitle(bundle.getString("saveFile"));
             FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
             fsbd.write(this.currentBoard);
             fsbd.write(this.startBoard);
         } catch (IOException | NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("noFileChosen"), ButtonType.OK);
             alert.setResizable(false);
-            alert.setTitle("Error");
+            alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
         }
     }

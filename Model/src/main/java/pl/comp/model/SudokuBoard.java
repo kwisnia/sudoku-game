@@ -2,8 +2,6 @@ package pl.comp.model;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import javafx.beans.property.IntegerProperty;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayInputStream;
@@ -17,7 +15,7 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
-
+import javafx.beans.property.IntegerProperty;
 
 /**
  * The type Sudoku board.
@@ -50,7 +48,10 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
     public int get(int i, int j) {
         return board.get(i * 9 + j).getFieldValue();
     }
-    public IntegerProperty getProperty(int i, int j) { return board.get(i * 9 + j).getValueProperty(); }
+
+    public IntegerProperty getProperty(int i, int j) {
+        return board.get(i * 9 + j).getValueProperty();
+    }
 
     public SudokuRow getRow(int y) {
         return new SudokuRow(board.subList(y * 9, y * 9 + 9));

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,15 +19,20 @@ public class PrimaryController {
     public Button primaryButton;
     public ChoiceBox<String> difficultyChoiceBox;
     public ToggleGroup languageGroup;
-    public RadioButton engButton;
-    public RadioButton plButton;
-    public RadioButton frButton;
+    public Button engButton;
+    public Button plButton;
+    public Button frButton;
+    private ResourceBundle bundle;
 
     public void initialize() {
         difficultyChoiceBox.setOnAction(this::turnOnButton);
         if (difficultyChoiceBox.getValue() == null) {
             primaryButton.setDisable(true);
         }
+        bundle = ResourceBundle.getBundle("pl/comp/view/Sudoku");
+        difficultyChoiceBox.getItems().setAll(FXCollections.observableArrayList(bundle.getString("easyLevelLabel"),
+                bundle.getString("mediumLevelLabel"),
+                bundle.getString("hardLevelLabel")));
     }
 
     private void turnOnButton(ActionEvent actionEvent) {
@@ -54,8 +60,8 @@ public class PrimaryController {
         Window.setRoot(p);
     }
 
-    public void loadEnglish() {
-        changeLanguage(Locale.ENGLISH);
+    public void loadEng() {
+        changeLanguage(new Locale("en", "US"));
     }
 
     public void loadPL() {
