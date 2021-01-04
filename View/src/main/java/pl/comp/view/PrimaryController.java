@@ -18,7 +18,6 @@ public class PrimaryController {
     public Pane root;
     public Button primaryButton;
     public ChoiceBox<String> difficultyChoiceBox;
-    public ToggleGroup languageGroup;
     public Button engButton;
     public Button plButton;
     public Button frButton;
@@ -69,7 +68,7 @@ public class PrimaryController {
     }
 
     public void loadFR() {
-        changeLanguage(Locale.FRENCH);
+        changeLanguage(new Locale("fr", "FR"));
     }
 
     private void changeLanguage(Locale locale) {
@@ -77,7 +76,7 @@ public class PrimaryController {
             Locale.setDefault(locale);
             Window.setRoot("primary");
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "File wasn't found", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("fileNotFound"), ButtonType.OK);
             alert.setTitle("Error!");
             alert.setResizable(false);
             alert.showAndWait();

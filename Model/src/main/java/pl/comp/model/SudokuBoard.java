@@ -163,28 +163,6 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
         return true;
     }
 
-    public String printBoard() {
-        StringBuilder stringBuilder = new StringBuilder();
-        final String horizontalBreak = "-------------------------\n";
-        stringBuilder.append(horizontalBreak);
-        for (int i = 0; i < 9; i++) {
-            if (i == 3 || i == 6) {
-                stringBuilder.append(horizontalBreak);
-            }
-            stringBuilder.append("| ");
-            for (int j = 0; j < 9; j++) {
-                stringBuilder.append(board.get(i * 9 + j).getFieldValue())
-                        .append(" ");
-                if (j == 2 || j == 5) {
-                    stringBuilder.append("| ");
-                }
-            }
-            stringBuilder.append("|\n");
-        }
-        stringBuilder.append(horizontalBreak);
-        return stringBuilder.toString();
-    }
-
     public void propertyChange(PropertyChangeEvent evt) {
         if (checkFlag && !this.checkBoard()) {
             System.out.println("Wrong input: " + evt.getNewValue());

@@ -13,10 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
-import pl.comp.model.BacktrackingSudokuSolver;
-import pl.comp.model.Difficulty;
-import pl.comp.model.FileSudokuBoardDao;
-import pl.comp.model.SudokuBoard;
+import pl.comp.model.*;
 
 public class SecondaryController extends javafx.stage.Window {
 
@@ -66,7 +63,6 @@ public class SecondaryController extends javafx.stage.Window {
                             + "-fx-opacity: 100%;"
                             + "-fx-alignment: center;"
                             + "-fx-border-style: solid");
-                    textField.setText(String.valueOf(currentBoard.get(i, j)));
                 }
                 textField.setOnKeyPressed(e -> {
                     if (e.getText().matches("[1-9]")) {
@@ -97,19 +93,26 @@ public class SecondaryController extends javafx.stage.Window {
 
     public void load() {
         try {
-            fileChooser.setTitle("Wczytaj plik");
+            fileChooser.setTitle(bundle.getString("loadFile"));
             File loadedFile = fileChooser.showOpenDialog(this);
-            try (FileSudokuBoardDao fsdb = new FileSudokuBoardDao(loadedFile.getAbsolutePath())) {
-                currentBoard = fsdb.read();
-                startBoard = fsdb.read();
+            try (FileMultipleBoardsDao fsdb = new FileMultipleBoardsDao(loadedFile.getAbsolutePath())) {
+                SudokuBoard[] readBoards = fsdb.read();
+                currentBoard = readBoards[0];
+                startBoard = readBoards[1];
                 for (Node k : sudokuBoardGrid.getChildren().subList(0, 81)) {
                     TextField field = (TextField) k;
-                    field.setEditable(true);
+                    int row = GridPane.getRowIndex(k);
+                    int column = GridPane.getColumnIndex(k);
+                    field.setDisable(false);
                     Bindings.bindBidirectional(field.textProperty(),
-                            currentBoard.getProperty(GridPane.getRowIndex(k), GridPane.getColumnIndex(k)), converter);
-                    if (currentBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k)) ==
-                            startBoard.get(GridPane.getRowIndex(k), GridPane.getColumnIndex(k))) {
-                        field.setEditable(false);
+                            currentBoard.getProperty(row, column), converter);
+                    if (currentBoard.get(row, column) ==
+                            startBoard.get(row, column) && startBoard.get(row, column) != 0) {
+                        field.setDisable(true);
+                        field.setStyle("-fx-background-color: #F0EBD7;"
+                                + "-fx-opacity: 100%;"
+                                + "-fx-alignment: center;"
+                                + "-fx-border-style: solid");
                     }
                 }
             } catch (Exception e) {
@@ -124,18 +127,21 @@ public class SecondaryController extends javafx.stage.Window {
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
         }
-        System.out.println(currentBoard.printBoard());
-        System.out.println(startBoard.printBoard());
     }
 
     public void save() {
         try {
             File saveFile = fileChooser.showSaveDialog(this);
             fileChooser.setTitle(bundle.getString("saveFile"));
-            FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
-            fsbd.write(this.currentBoard);
-            fsbd.write(this.startBoard);
-        } catch (IOException | NullPointerException e) {
+            try (FileMultipleBoardsDao fsbd = new FileMultipleBoardsDao(saveFile.getAbsolutePath())) {
+                fsbd.write(new SudokuBoard[]{currentBoard, startBoard});
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("saveError"), ButtonType.OK);
+                alert.setResizable(false);
+                alert.setTitle(bundle.getString("error"));
+                alert.showAndWait();
+            }
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("noFileChosen"), ButtonType.OK);
             alert.setResizable(false);
             alert.setTitle(bundle.getString("error"));

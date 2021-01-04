@@ -10,38 +10,31 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-
-public class FileSudokuBoardDao implements Dao<SudokuBoard> {
-
+public class FileMultipleBoardsDao implements Dao<SudokuBoard[]> {
     private final String fileName;
 
-    public FileSudokuBoardDao(String fileName) {
+    public FileMultipleBoardsDao(String fileName) {
         this.fileName = fileName;
-    }
-
-    @Override
-    public SudokuBoard read() throws IOException, ClassNotFoundException {
-        try (InputStream fis = new FileInputStream(fileName);
-             ObjectInput ois = new ObjectInputStream(fis)) {
-            return (SudokuBoard) ois.readObject();
-        }
-    }
-
-    @Override
-    public void write(SudokuBoard obj) throws IOException {
-        try (OutputStream fos = new FileOutputStream(fileName);
-             ObjectOutput oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(obj);
-        }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
     }
 
     @Override
     public void close() throws Exception {
 
+    }
+
+    @Override
+    public SudokuBoard[] read() throws IOException, ClassNotFoundException {
+        try (InputStream fis = new FileInputStream(fileName);
+             ObjectInput ois = new ObjectInputStream(fis)) {
+            return (SudokuBoard[]) ois.readObject();
+        }
+    }
+
+    @Override
+    public void write(SudokuBoard[] obj) throws IOException {
+        try (OutputStream fos = new FileOutputStream(fileName);
+             ObjectOutput oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(obj);
+        }
     }
 }
