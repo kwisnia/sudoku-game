@@ -62,6 +62,7 @@ public class SecondaryController extends javafx.stage.Window {
                             + "-fx-opacity: 100%;"
                             + "-fx-alignment: center;"
                             + "-fx-border-style: solid");
+                    textField.setText(String.valueOf(currentBoard.get(i, j)));
                 }
                 textField.setOnKeyPressed(e -> {
                     if (e.getText().matches("[1-9]")) {
@@ -109,10 +110,14 @@ public class SecondaryController extends javafx.stage.Window {
                 }
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Error reading file!", ButtonType.OK);
+                alert.setResizable(false);
+                alert.setTitle("Error");
                 alert.showAndWait();
             }
         } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
+            alert.setResizable(false);
+            alert.setTitle("Error");
             alert.showAndWait();
         }
         System.out.println(currentBoard.printBoard());
@@ -122,12 +127,14 @@ public class SecondaryController extends javafx.stage.Window {
     public void save() {
         try {
             File saveFile = fileChooser.showSaveDialog(this);
-            fileChooser.setTitle("Zapisz do pliku");
+            fileChooser.setTitle("Save file");
             FileSudokuBoardDao fsbd = new FileSudokuBoardDao(saveFile.getAbsolutePath());
             fsbd.write(this.currentBoard);
             fsbd.write(this.startBoard);
         } catch (IOException | NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.NONE, "No file chosen!", ButtonType.OK);
+            alert.setResizable(false);
+            alert.setTitle("Error");
             alert.showAndWait();
         }
     }
