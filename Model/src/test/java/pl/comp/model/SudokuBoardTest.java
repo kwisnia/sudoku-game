@@ -8,9 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
     @Test
@@ -132,6 +130,12 @@ class SudokuBoardTest {
             }
         }
         return counter;
+    }
+
+    @Test
+    void getPropertyTest() {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        assertNotNull(sudokuBoard.getProperty(0, 0));
     }
 
 }

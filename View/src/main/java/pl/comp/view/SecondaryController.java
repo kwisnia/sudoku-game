@@ -6,14 +6,21 @@ import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
-import pl.comp.model.*;
+import pl.comp.model.BacktrackingSudokuSolver;
+import pl.comp.model.Difficulty;
+import pl.comp.model.FileMultipleBoardsDao;
+import pl.comp.model.SudokuBoard;
 
 public class SecondaryController extends javafx.stage.Window {
 
@@ -108,7 +115,8 @@ public class SecondaryController extends javafx.stage.Window {
                     field.setDisable(false);
                     Bindings.bindBidirectional(field.textProperty(),
                             currentBoard.getProperty(row, column), converter);
-                    if (currentBoard.get(row, column) == startBoard.get(row, column) && startBoard.get(row, column) != 0) {
+                    if (currentBoard.get(row, column) == startBoard.get(row, column)
+                            && startBoard.get(row, column) != 0) {
                         field.setDisable(true);
                         field.setStyle("-fx-background-color: #F0EBD7;"
                                 + "-fx-opacity: 100%;"
@@ -117,7 +125,9 @@ public class SecondaryController extends javafx.stage.Window {
                     }
                 }
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("readingFile"), ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.NONE,
+                        bundle.getString("readingFile"),
+                        ButtonType.OK);
                 alert.setResizable(false);
                 alert.setTitle(bundle.getString("error"));
                 alert.showAndWait();
@@ -135,7 +145,8 @@ public class SecondaryController extends javafx.stage.Window {
         try {
             File saveFile = fileChooser.showSaveDialog(this);
             fileChooser.setTitle(bundle.getString("saveFile"));
-            try (FileMultipleBoardsDao fsbd = new FileMultipleBoardsDao(saveFile.getAbsolutePath())) {
+            try (FileMultipleBoardsDao fsbd =
+                         new FileMultipleBoardsDao(saveFile.getAbsolutePath())) {
                 fsbd.write(new SudokuBoard[]{currentBoard, startBoard});
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.NONE,

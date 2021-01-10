@@ -1,10 +1,10 @@
 package pl.comp.model;
 
+import javafx.beans.property.IntegerProperty;
 import org.junit.jupiter.api.Test;
 import pl.comp.model.SudokuField;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SudokuFieldTest {
 
@@ -50,5 +50,12 @@ public class SudokuFieldTest {
         SudokuField field1 = new SudokuField(9);
         SudokuField field2 = field1.clone();
         assertEquals(field1, field2);
+    }
+
+    @Test
+    void propertyGetTest() {
+        SudokuField field1 = new SudokuField(9);
+        IntegerProperty prop = field1.getValueProperty();
+        assertNotNull(prop);
     }
 }

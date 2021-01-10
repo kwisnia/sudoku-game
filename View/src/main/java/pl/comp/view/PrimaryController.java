@@ -9,7 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import pl.comp.model.Difficulty;
 
@@ -80,7 +84,9 @@ public class PrimaryController {
             Locale.setDefault(locale);
             Window.setRoot("primary");
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("fileNotFound"), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE,
+                    bundle.getString("fileNotFound"),
+                    ButtonType.OK);
             alert.setTitle("Error!");
             alert.setResizable(false);
             alert.showAndWait();
