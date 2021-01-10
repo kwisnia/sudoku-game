@@ -5,21 +5,20 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="root" prefHeight="620.0" prefWidth="860.0" style="-fx-background-color: #F2DA8A;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.view.PrimaryController">
    <children>
-      <VBox alignment="CENTER" prefHeight="620.0" prefWidth="860.0" spacing="20.0" stylesheets="@primaryScreen.css">
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="80.0" />
-         </padding>
-         <ChoiceBox fx:id="difficultyChoiceBox" prefWidth="150.0" style="-fx-pref-width: 150; -fx-background-color: #FFFFFF;" stylesheets="@primaryScreen.css" />
-         <Button fx:id="primaryButton" onAction="#switchToSecondary" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000;" text="%startButtonLabel" />
-         <Button fx:id="plButton" mnemonicParsing="false" onAction="#loadPL" prefHeight="26.0" prefWidth="37.0" text="PL" />
-         <Button fx:id="engButton" mnemonicParsing="false" onAction="#loadEng" text="ENG" />
-         <Button fx:id="frButton" mnemonicParsing="false" onAction="#loadFR" text="FR" />
-      </VBox>
+      <ChoiceBox fx:id="difficultyChoiceBox" layoutX="355.20001220703125" layoutY="216.0" prefWidth="150.0" style="-fx-pref-width: 150; -fx-background-color: #FFFFFF; " stylesheets="@primaryScreen.css" />
+      <Button fx:id="primaryButton" layoutX="396.0" layoutY="261.6000061035156" onAction="#switchToSecondary" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="%startButtonLabel" />
+      <Button fx:id="plButton" layoutX="411.20001220703125" layoutY="308.79998779296875" mnemonicParsing="false" onAction="#loadPL" prefHeight="26.0" prefWidth="37.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="PL" />
+      <Button fx:id="engButton" layoutX="409.6000061035156" layoutY="355.20001220703125" mnemonicParsing="false" onAction="#loadEng" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="ENG" />
+      <Button fx:id="frButton" layoutX="415.20001220703125" layoutY="400.79998779296875" mnemonicParsing="false" onAction="#loadFR" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="FR" />
+      <Label fx:id="authorsLabel" layoutX="303.0" layoutY="443.0" prefHeight="18.0" prefWidth="263.0" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
       <Label prefHeight="174.0" prefWidth="860.0" text="Sudoku Game" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />

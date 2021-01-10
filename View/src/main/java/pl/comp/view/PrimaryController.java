@@ -1,15 +1,14 @@
 package pl.comp.view;
 
 import java.io.IOException;
+import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import pl.comp.model.Difficulty;
@@ -21,7 +20,9 @@ public class PrimaryController {
     public Button engButton;
     public Button plButton;
     public Button frButton;
+    public Label authorsLabel;
     private ResourceBundle bundle;
+    private ResourceBundle authorsBundle;
 
     public void initialize() {
         difficultyChoiceBox.setOnAction(this::turnOnButton);
@@ -29,9 +30,11 @@ public class PrimaryController {
             primaryButton.setDisable(true);
         }
         bundle = ResourceBundle.getBundle("pl/comp/view/Sudoku");
+        authorsBundle = ResourceBundle.getBundle("pl.comp.view.authors");
         difficultyChoiceBox.getItems().setAll(FXCollections.observableArrayList(bundle.getString("easyLevelLabel"),
                 bundle.getString("mediumLevelLabel"),
                 bundle.getString("hardLevelLabel")));
+        authorsLabel.setText(authorsBundle.getString("authors"));
     }
 
     private void turnOnButton(ActionEvent actionEvent) {
