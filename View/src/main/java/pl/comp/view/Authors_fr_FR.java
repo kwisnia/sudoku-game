@@ -1,6 +1,6 @@
 package pl.comp.view;
 
-public class authors_fr_FR extends java.util.ListResourceBundle {
+public class Authors_fr_FR extends java.util.ListResourceBundle {
 
 
     public Object[][] getContents() {

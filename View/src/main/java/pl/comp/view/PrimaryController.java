@@ -30,8 +30,9 @@ public class PrimaryController {
             primaryButton.setDisable(true);
         }
         bundle = ResourceBundle.getBundle("pl/comp/view/Sudoku");
-        authorsBundle = ResourceBundle.getBundle("pl.comp.view.authors");
-        difficultyChoiceBox.getItems().setAll(FXCollections.observableArrayList(bundle.getString("easyLevelLabel"),
+        authorsBundle = ResourceBundle.getBundle("pl.comp.view.Authors");
+        difficultyChoiceBox.getItems().setAll(FXCollections.observableArrayList(
+                bundle.getString("easyLevelLabel"),
                 bundle.getString("mediumLevelLabel"),
                 bundle.getString("hardLevelLabel")));
         authorsLabel.setText(authorsBundle.getString("authors"));

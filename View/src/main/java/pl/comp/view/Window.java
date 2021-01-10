@@ -1,16 +1,13 @@
 package pl.comp.view;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 
 public class Window extends Application {
 
@@ -35,7 +32,8 @@ public class Window extends Application {
     }
 
     public static FXMLLoader getFxmlLoader(String fxml) {
-        return new FXMLLoader(Window.class.getResource(fxml + ".fxml"), ResourceBundle.getBundle("pl/comp/view/Sudoku"));
+        return new FXMLLoader(Window.class.getResource(fxml + ".fxml"),
+                ResourceBundle.getBundle("pl/comp/view/Sudoku"));
     }
 
     public static void main(String[] args) {

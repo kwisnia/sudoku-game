@@ -1,6 +1,6 @@
 package pl.comp.view;
 
-public class authors extends java.util.ListResourceBundle {
+public class Authors extends java.util.ListResourceBundle {
 
     @Override
     protected Object[][] getContents() {

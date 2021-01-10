@@ -70,7 +70,8 @@ public class SecondaryController extends javafx.stage.Window {
                     }
                 });
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
-                Bindings.bindBidirectional(textField.textProperty(), currentBoard.getProperty(i, j), converter);
+                Bindings.bindBidirectional(textField.textProperty(),
+                        currentBoard.getProperty(i, j), converter);
                 sudokuBoardGrid.add(textField, j, i);
             }
         }
@@ -95,7 +96,8 @@ public class SecondaryController extends javafx.stage.Window {
         try {
             fileChooser.setTitle(bundle.getString("loadFile"));
             File loadedFile = fileChooser.showOpenDialog(this);
-            try (FileMultipleBoardsDao fsdb = new FileMultipleBoardsDao(loadedFile.getAbsolutePath())) {
+            try (FileMultipleBoardsDao fsdb =
+                         new FileMultipleBoardsDao(loadedFile.getAbsolutePath())) {
                 SudokuBoard[] readBoards = fsdb.read();
                 currentBoard = readBoards[0];
                 startBoard = readBoards[1];
@@ -106,8 +108,7 @@ public class SecondaryController extends javafx.stage.Window {
                     field.setDisable(false);
                     Bindings.bindBidirectional(field.textProperty(),
                             currentBoard.getProperty(row, column), converter);
-                    if (currentBoard.get(row, column) ==
-                            startBoard.get(row, column) && startBoard.get(row, column) != 0) {
+                    if (currentBoard.get(row, column) == startBoard.get(row, column) && startBoard.get(row, column) != 0) {
                         field.setDisable(true);
                         field.setStyle("-fx-background-color: #F0EBD7;"
                                 + "-fx-opacity: 100%;"
@@ -122,7 +123,8 @@ public class SecondaryController extends javafx.stage.Window {
                 alert.showAndWait();
             }
         } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("noFileChosen"), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE,
+                    bundle.getString("noFileChosen"), ButtonType.OK);
             alert.setResizable(false);
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
@@ -136,13 +138,15 @@ public class SecondaryController extends javafx.stage.Window {
             try (FileMultipleBoardsDao fsbd = new FileMultipleBoardsDao(saveFile.getAbsolutePath())) {
                 fsbd.write(new SudokuBoard[]{currentBoard, startBoard});
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("saveError"), ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.NONE,
+                        bundle.getString("saveError"), ButtonType.OK);
                 alert.setResizable(false);
                 alert.setTitle(bundle.getString("error"));
                 alert.showAndWait();
             }
         } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, bundle.getString("noFileChosen"), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.NONE,
+                    bundle.getString("noFileChosen"), ButtonType.OK);
             alert.setResizable(false);
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
