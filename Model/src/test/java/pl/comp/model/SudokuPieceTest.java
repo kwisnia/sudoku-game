@@ -51,9 +51,9 @@ public class SudokuPieceTest {
 
     @Test
     void cloneTest() throws CloneNotSupportedException {
+
         SudokuPiece row1 = new SudokuRow(new ArrayList<>());
         SudokuPiece row2 = row1.clone();
         assertEquals(row1, row2);
-
     }
 }

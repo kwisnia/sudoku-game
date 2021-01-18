@@ -7,6 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class SudokuField implements Comparable<SudokuField>, Serializable, Cloneable {
     private final transient IntegerProperty value = new SimpleIntegerProperty();
@@ -60,8 +61,12 @@ public class SudokuField implements Comparable<SudokuField>, Serializable, Clone
     }
 
     @Override
-    public int compareTo(SudokuField o) {
-        return Integer.compare(this.value.get(), o.getFieldValue());
+    public int compareTo(@NonNull SudokuField o) {
+        try {
+            return Integer.compare(this.value.get(), o.getFieldValue());
+        } catch (NullPointerException e) {
+            return -1;
+        }
     }
 
     @Override

@@ -58,4 +58,10 @@ public class SudokuFieldTest {
         IntegerProperty prop = field1.getValueProperty();
         assertNotNull(prop);
     }
+
+    @Test
+    void nullCompareTest() {
+        SudokuField field1 = new SudokuField(9);
+        assertEquals(-1, field1.compareTo(null));
+    }
 }
