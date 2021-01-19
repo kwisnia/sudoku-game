@@ -8,11 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import pl.comp.model.Difficulty;
 
@@ -20,9 +16,7 @@ public class PrimaryController {
     public Pane root;
     public Button primaryButton;
     public ChoiceBox<String> difficultyChoiceBox;
-    public Button engButton;
-    public Button plButton;
-    public Button frButton;
+    public ComboBox<String> languageComboBox;
     public Label authorsLabel;
     private ResourceBundle bundle;
     private ResourceBundle authorsBundle;
@@ -38,6 +32,20 @@ public class PrimaryController {
                 bundle.getString("easyLevelLabel"),
                 bundle.getString("mediumLevelLabel"),
                 bundle.getString("hardLevelLabel")));
+        languageComboBox.getItems().setAll(FXCollections.observableArrayList(
+                bundle.getString("language_en"),
+                bundle.getString("language_pl"),
+                bundle.getString("language_fr")));
+        switch (Locale.getDefault().toString()) {
+            case "en_US":
+                languageComboBox.setPromptText(bundle.getString("language_en"));
+                break;
+            case "fr_FR":
+                languageComboBox.setPromptText(bundle.getString("language_fr"));
+                break;
+            default:
+                languageComboBox.setPromptText(bundle.getString("language_pl"));
+        }
         authorsLabel.setText(authorsBundle.getString("authors"));
     }
 
@@ -66,18 +74,6 @@ public class PrimaryController {
         Window.setRoot(p);
     }
 
-    public void loadEng() {
-        changeLanguage(new Locale("en", "US"));
-    }
-
-    public void loadPL() {
-        changeLanguage(new Locale("pl", "PL"));
-    }
-
-    public void loadFR() {
-        changeLanguage(new Locale("fr", "FR"));
-    }
-
     private void changeLanguage(Locale locale) {
         try {
             Locale.setDefault(locale);
@@ -89,6 +85,22 @@ public class PrimaryController {
             alert.setTitle("Error!");
             alert.setResizable(false);
             alert.showAndWait();
+        }
+    }
+
+    public void loadLanguage() {
+        switch (languageComboBox.getValue()) {
+            case "English":
+                changeLanguage(new Locale("en", "US"));
+                languageComboBox.setPromptText(bundle.getString("language_en"));
+                break;
+            case "Francais":
+                changeLanguage(new Locale("fr", "FR"));
+                languageComboBox.setPromptText(bundle.getString("language_fr"));
+                break;
+            default:
+                changeLanguage(new Locale("pl", "PL"));
+                languageComboBox.setPromptText(bundle.getString("language_pl"));
         }
     }
 }
