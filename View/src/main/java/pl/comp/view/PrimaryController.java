@@ -1,7 +1,6 @@
 package pl.comp.view;
 
 import java.io.IOException;
-import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;

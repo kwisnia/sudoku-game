@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Window extends Application {
-
     private static Scene scene;
 
     @Override
@@ -39,5 +38,4 @@ public class Window extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

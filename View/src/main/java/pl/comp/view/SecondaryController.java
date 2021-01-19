@@ -17,6 +17,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.comp.model.BacktrackingSudokuSolver;
 import pl.comp.model.Difficulty;
 import pl.comp.model.FileMultipleBoardsDao;
@@ -33,6 +35,7 @@ public class SecondaryController extends javafx.stage.Window {
     private final StringConverter<Number> converter = new NumberStringConverter();
     final FileChooser fileChooser = new FileChooser();
     private ResourceBundle bundle;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void initialize() {
         bundle = ResourceBundle.getBundle("pl/comp/view/Sudoku");
@@ -106,6 +109,7 @@ public class SecondaryController extends javafx.stage.Window {
             try (FileMultipleBoardsDao fsdb =
                          new FileMultipleBoardsDao(loadedFile.getAbsolutePath())) {
                 SudokuBoard[] readBoards = fsdb.read();
+                logger.info(bundle.getString("loadFileLog") + loadedFile.getName());
                 currentBoard = readBoards[0];
                 startBoard = readBoards[1];
                 for (Node k : sudokuBoardGrid.getChildren().subList(0, 81)) {
@@ -131,6 +135,7 @@ public class SecondaryController extends javafx.stage.Window {
                 alert.setResizable(false);
                 alert.setTitle(bundle.getString("error"));
                 alert.showAndWait();
+                logger.error(bundle.getString("readingFile"));
             }
         } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.NONE,
@@ -138,6 +143,7 @@ public class SecondaryController extends javafx.stage.Window {
             alert.setResizable(false);
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
+            logger.error(bundle.getString("error"));
         }
     }
 
@@ -154,6 +160,7 @@ public class SecondaryController extends javafx.stage.Window {
                 alert.setResizable(false);
                 alert.setTitle(bundle.getString("error"));
                 alert.showAndWait();
+                logger.error(bundle.getString("error"));
             }
         } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.NONE,
@@ -161,6 +168,7 @@ public class SecondaryController extends javafx.stage.Window {
             alert.setResizable(false);
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
+            logger.error(bundle.getString("noFileChosen"));
         }
     }
 }

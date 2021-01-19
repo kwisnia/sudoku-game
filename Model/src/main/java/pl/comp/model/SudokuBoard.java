@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javafx.beans.property.IntegerProperty;
 
 /**
@@ -25,6 +27,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
     private final SudokuSolver sudokuSolver;
     private boolean checkFlag = false;
     private Difficulty difficulty;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
@@ -165,7 +168,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     public void propertyChange(PropertyChangeEvent evt) {
         if (checkFlag && !this.checkBoard()) {
-            System.out.println("Wrong input: " + evt.getNewValue());
+            logger.error("Wrong input: " + evt.getNewValue());
         }
     }
 
