@@ -7,6 +7,7 @@ import pl.comp.model.SudokuBoard;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,12 +47,12 @@ class SudokuBoardTest {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         try {
             sudokuBoard.set(0, 0, 10);
-        } catch (InputMismatchException e) {
-            assertEquals(e.getMessage(), "Number must be in range from 1 to 9");
+        } catch (WrongInputException e) {
+            assertEquals(e.getMessage(), ResourceBundle.getBundle("Exceptions").getString(""));
         }
         try {
             sudokuBoard.set(0,0, -1);
-        } catch (InputMismatchException e) {
+        } catch (WrongInputException e) {
             assertEquals(e.getMessage(), "Number must be in range from 1 to 9");
         }
     }

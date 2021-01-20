@@ -83,7 +83,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     public void set(int i, int j, int number) {
         if (number < 0 || number > 9) {
-            throw new InputMismatchException("Number must be in range from 1 to 9");
+            throw new WrongInputException("InputMismatch");
         } else {
             board.get(i * 9 + j).setFieldValue(number);
         }
