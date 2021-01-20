@@ -3,18 +3,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="root" prefHeight="620.0" prefWidth="860.0" style="-fx-background-color: #F2DA8A;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.view.PrimaryController">
+<Pane fx:id="root" prefHeight="620.0" prefWidth="860.0" style="-fx-background-color: #F2DA8A;" styleClass="c" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.view.PrimaryController">
    <children>
-      <ChoiceBox fx:id="difficultyChoiceBox" layoutX="355.20001220703125" layoutY="216.0" prefWidth="150.0" style="-fx-pref-width: 150; -fx-background-color: #FFFFFF; " stylesheets="@primaryScreen.css" />
-      <Button fx:id="primaryButton" layoutX="396.0" layoutY="261.6000061035156" onAction="#switchToSecondary" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="%startButtonLabel" />
-      <Button fx:id="plButton" layoutX="411.20001220703125" layoutY="308.79998779296875" mnemonicParsing="false" onAction="#loadPL" prefHeight="26.0" prefWidth="37.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="PL" />
-      <Button fx:id="engButton" layoutX="409.6000061035156" layoutY="355.20001220703125" mnemonicParsing="false" onAction="#loadEng" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="ENG" />
-      <Button fx:id="frButton" layoutX="415.20001220703125" layoutY="400.79998779296875" mnemonicParsing="false" onAction="#loadFR" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="FR" />
-      <Label fx:id="authorsLabel" layoutX="303.0" layoutY="443.0" prefHeight="18.0" prefWidth="263.0" textAlignment="CENTER">
+      <ChoiceBox fx:id="difficultyChoiceBox" layoutX="360.0" layoutY="317.0" prefWidth="150.0" style="-fx-pref-width: 150; -fx-background-color: #FFFFFF; " stylesheets="@primaryScreen.css" />
+      <Button fx:id="primaryButton" layoutX="403.0" layoutY="359.0" onAction="#switchToSecondary" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-background-radius: 10px" text="%startButtonLabel" />
+      <Label fx:id="authorsLabel" layoutX="305.0" layoutY="401.0" prefHeight="18.0" prefWidth="263.0" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -24,8 +22,11 @@
             <Font name="System Bold" size="24.0" />
          </font>
          <padding>
-            <Insets left="345.0" top="130.0" />
+            <Insets left="355.0" top="130.0" />
          </padding>
       </Label>
+      <Label fx:id="languageChooseLabel" layoutX="360.0" layoutY="208.0" prefHeight="17.0" prefWidth="150.0" text="%languageChoose" />
+      <Label layoutX="361.0" layoutY="285.0" prefHeight="17.0" prefWidth="150.0" text="%difficultyChoose" />
+      <ComboBox fx:id="languageComboBox" layoutX="361.0" layoutY="240.0" onAction="#loadLanguage" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;" styleClass="choice-box" stylesheets="@primaryScreen.css" />
    </children>
 </Pane>
