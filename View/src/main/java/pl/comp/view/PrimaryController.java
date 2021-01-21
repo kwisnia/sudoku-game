@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.comp.model.Difficulty;
 
 public class PrimaryController {
@@ -20,6 +22,7 @@ public class PrimaryController {
     public Label authorsLabel;
     private ResourceBundle bundle;
     private ResourceBundle authorsBundle;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void initialize() {
         difficultyChoiceBox.setOnAction(this::turnOnButton);
@@ -85,6 +88,7 @@ public class PrimaryController {
             alert.setTitle("Error!");
             alert.setResizable(false);
             alert.showAndWait();
+            logger.debug(bundle.getString("fileNotFound"));
         }
     }
 

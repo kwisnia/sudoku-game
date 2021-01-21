@@ -19,10 +19,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.comp.model.BacktrackingSudokuSolver;
-import pl.comp.model.Difficulty;
-import pl.comp.model.FileMultipleBoardsDao;
-import pl.comp.model.SudokuBoard;
+import pl.comp.model.*;
 
 public class SecondaryController extends javafx.stage.Window {
 
@@ -35,7 +32,7 @@ public class SecondaryController extends javafx.stage.Window {
     private final StringConverter<Number> converter = new NumberStringConverter();
     final FileChooser fileChooser = new FileChooser();
     private ResourceBundle bundle;
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final static Logger logger = LoggerFactory.getLogger(SecondaryController.class);
 
     public void initialize() {
         bundle = ResourceBundle.getBundle("pl/comp/view/Sudoku");
@@ -143,7 +140,8 @@ public class SecondaryController extends javafx.stage.Window {
             alert.setResizable(false);
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
-            logger.error(bundle.getString("error"));
+            logger.info(bundle.getString("error"));
+            throw new SudokuNullException(e.getMessage());
         }
     }
 

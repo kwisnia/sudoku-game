@@ -17,6 +17,8 @@ public class MultipleBoardDaoTest {
         try (Dao<SudokuBoard[]> fDao = new FileMultipleBoardsDao("testMultiple.txt")) {
             fDao.write(testArray);
             assertNotEquals(new File("testMultiple.txt").length(), 0);
+        } catch (Exception e) {
+            throw new Dao
         }
         System.gc();
     }
@@ -34,7 +36,11 @@ public class MultipleBoardDaoTest {
             SudokuBoard[] readBoard = fBoardDao.read();
             assertEquals(testBoard, readBoard[0]);
             assertEquals(testBoard2, readBoard[1]);
+        } catch (Exception e) {
+            throw new DaoReadException(e.getMessage(), e);
         }
         System.gc();
     }
+
+
 }

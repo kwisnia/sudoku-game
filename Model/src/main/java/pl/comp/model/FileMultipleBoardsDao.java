@@ -27,6 +27,9 @@ public class FileMultipleBoardsDao implements Dao<SudokuBoard[]> {
         try (InputStream fis = new FileInputStream(fileName);
              ObjectInput ois = new ObjectInputStream(fis)) {
             return (SudokuBoard[]) ois.readObject();
+        } catch (IOException e) {
+            e.initCause(new DaoReadException("s", e.getCause()));
+            throw e;
         }
     }
 

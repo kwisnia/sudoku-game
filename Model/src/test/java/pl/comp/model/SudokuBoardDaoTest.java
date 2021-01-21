@@ -24,6 +24,8 @@ public class SudokuBoardDaoTest {
         try (Dao<SudokuBoard> fBoardDao = SudokuBoardDaoFactory.getFileDao("test_1.txt")) {
             fBoardDao.write(testBoard);
             assertEquals(testBoard, fBoardDao.read());
+        } catch (Exception e) {
+
         }
         System.gc();
     }

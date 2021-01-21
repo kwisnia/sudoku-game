@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
+import javafx.beans.property.IntegerProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javafx.beans.property.IntegerProperty;
 
 /**
  * The type Sudoku board.
