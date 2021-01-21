@@ -18,7 +18,6 @@ public class MultipleBoardDaoTest {
             fDao.write(testArray);
             assertNotEquals(new File("testMultiple.txt").length(), 0);
         } catch (Exception e) {
-            throw new Dao
         }
         System.gc();
     }

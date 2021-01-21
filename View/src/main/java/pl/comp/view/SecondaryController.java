@@ -166,7 +166,8 @@ public class SecondaryController extends javafx.stage.Window {
             alert.setResizable(false);
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
-            logger.error(bundle.getString("noFileChosen"));
+            logger.debug(bundle.getString("noFileChosen"));
+            throw new SudokuNullException(e.getMessage());
         }
     }
 }
