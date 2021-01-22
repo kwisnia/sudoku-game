@@ -46,7 +46,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             logger.debug("Utworzono tablice");
         } catch (SQLException e) {
             logger.error(e.getLocalizedMessage());
-            logger.error("Nie stworzono tablicy poprawnie");
+            logger.error(bundle.getString("noTableCreated"));
         }
     }
 
@@ -64,7 +64,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                     logger.error("No nie");
                     throw new DaoException("placeholder");
                 }
-                logger.debug("Wczytano tablice");
+                logger.debug(bundle.getString("loadTable"));
             }
         } catch (SQLException e) {
             throw new DaoException("placeholder");
@@ -78,7 +78,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                             resultSet.getInt(2),
                             resultSet.getInt(3));
                 }
-                logger.debug("Przypisano liczby");
+                logger.debug(bundle.getString("loadSudokuToTable"));
             }
         } catch (SQLException e) {
             logger.error(e.getLocalizedMessage());
@@ -141,6 +141,4 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             throw new DaoException("connectionError");
         }
     }
-
-
 }
