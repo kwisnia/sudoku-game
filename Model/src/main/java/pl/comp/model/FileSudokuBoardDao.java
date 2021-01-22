@@ -22,24 +22,24 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     @Override
-    public SudokuBoard read() throws IOException {
+    public SudokuBoard read() throws DaoException {
         try (InputStream fis = new FileInputStream(fileName);
              ObjectInput ois = new ObjectInputStream(fis)) {
             logger.info(ResourceBundle.getBundle("Exceptions").getString("readFile"));
             return (SudokuBoard) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new DaoReadException(e.getCause());
+            throw new DaoException("DaoReadException", e.getCause());
         }
     }
 
     @Override
-    public void write(SudokuBoard obj) throws DaoWriteException {
+    public void write(SudokuBoard obj) throws DaoException {
         try (OutputStream fos = new FileOutputStream(fileName);
              ObjectOutput oos = new ObjectOutputStream(fos)) {
             oos.writeObject(obj);
             logger.info(ResourceBundle.getBundle("Exceptions").getString("writeFile"));
         } catch (IOException e) {
-            throw new DaoWriteException(e.getCause());
+            throw new DaoException("DaoWriteException", e.getCause());
         }
     }
 

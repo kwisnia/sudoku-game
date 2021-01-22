@@ -7,7 +7,7 @@ public interface Dao<T> extends AutoCloseable {
     @Override
     void close() throws Exception;
 
-    T read() throws IOException, ClassNotFoundException;
+    T read() throws IOException, ClassNotFoundException, DaoException;
 
-    void write(T obj) throws DaoWriteException;
+    void write(T obj) throws DaoException;
 }

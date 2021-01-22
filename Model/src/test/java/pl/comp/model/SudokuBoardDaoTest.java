@@ -2,7 +2,11 @@ package pl.comp.model;
 
 import org.junit.jupiter.api.Test;
 import java.io.File;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ResourceBundle;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SudokuBoardDaoTest {
     @Test
@@ -13,7 +17,7 @@ public class SudokuBoardDaoTest {
             fDao.write(testBoard);
             assertNotEquals(new File("test.txt").length(), 0);
         } catch (Exception e) {
-            throw new DaoReadException(e.getCause());
+            throw new DaoException("DaoReadException", e.getCause());
         }
         System.gc();
     }
@@ -22,7 +26,7 @@ public class SudokuBoardDaoTest {
     void writeExceptionTest() throws Exception {
         SudokuBoard testBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         try (Dao<SudokuBoard> fDao = new FileSudokuBoardDao("")) {
-            assertThrows(DaoWriteException.class, () -> fDao.write(testBoard));
+            assertThrows(DaoException.class, () -> fDao.write(testBoard));
         }
     }
 
@@ -35,7 +39,7 @@ public class SudokuBoardDaoTest {
             fBoardDao.write(testBoard);
             assertEquals(testBoard, fBoardDao.read());
         } catch (Exception e) {
-            throw new DaoReadException(e.getCause());
+            throw new DaoException("DaoReadException", e.getCause());
         }
         System.gc();
     }
@@ -43,7 +47,10 @@ public class SudokuBoardDaoTest {
     @Test
     void readExceptionTest() throws Exception {
         try (Dao<SudokuBoard> fBoardDao = new FileSudokuBoardDao("cos")) {
-            assertThrows(DaoReadException.class, fBoardDao::read);
+            assertThrows(DaoException.class, fBoardDao::read);
+            fBoardDao.read();
+        } catch (DaoException e) {
+            assertEquals(ResourceBundle.getBundle("Exceptions").getString("DaoReadException"), e.getLocalizedMessage());
         }
         System.gc();
     }
