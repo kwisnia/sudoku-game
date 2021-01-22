@@ -3,7 +3,7 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
-                %d{HH:mm:ss} %green(%t) %5level %logger{16} - %m%n
+                %d{HH:mm:ss} %green(%t) %5level %logger{42} - %m%n
             </Pattern>
         </encoder>
     </appender>

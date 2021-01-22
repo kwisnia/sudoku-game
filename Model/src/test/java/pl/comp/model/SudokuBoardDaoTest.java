@@ -42,11 +42,6 @@ public class SudokuBoardDaoTest {
 
     @Test
     void readExceptionTest() throws Exception {
-        SudokuBoard testBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        SudokuBoard testBoard2 = new SudokuBoard(new BacktrackingSudokuSolver());
-        testBoard.solveGame();
-        testBoard2.solveGame();
-        testBoard.solveGame();
         try (Dao<SudokuBoard> fBoardDao = new FileSudokuBoardDao("cos")) {
             assertThrows(DaoReadException.class, fBoardDao::read);
         }
