@@ -8,7 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +55,7 @@ public class PrimaryController {
                 languageComboBox.setPromptText(bundle.getString("language_pl"));
         }
         authorsLabel.setText(authorsBundle.getString("authors"));
+        logger.info(bundle.getString("currentLanguage"));
     }
 
     private void turnOnButton(ActionEvent actionEvent) {
@@ -79,6 +85,7 @@ public class PrimaryController {
 
     private void changeLanguage(Locale locale) {
         try {
+            logger.info(bundle.getString("changeLanguage"));
             Locale.setDefault(locale);
             Window.setRoot("primary");
         } catch (IOException e) {

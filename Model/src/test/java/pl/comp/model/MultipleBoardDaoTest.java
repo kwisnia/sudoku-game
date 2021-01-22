@@ -2,9 +2,7 @@ package pl.comp.model;
 
 import org.junit.jupiter.api.Test;
 import java.io.File;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MultipleBoardDaoTest {
     @Test
@@ -21,6 +19,15 @@ public class MultipleBoardDaoTest {
         }
         System.gc();
     }
+
+    @Test
+    void writeExceptionTest() throws Exception {
+        SudokuBoard[] testArray = {new SudokuBoard(new BacktrackingSudokuSolver())};
+        try (Dao<SudokuBoard[]> fmDao = new FileMultipleBoardsDao("")) {
+            assertThrows(DaoWriteException.class, () -> fmDao.write(testArray));
+        }
+    }
+
     @Test
     void readTest() throws Exception {
         SudokuBoard testBoard = new SudokuBoard(new BacktrackingSudokuSolver());
@@ -35,7 +42,7 @@ public class MultipleBoardDaoTest {
             assertEquals(testBoard, readBoard[0]);
             assertEquals(testBoard2, readBoard[1]);
         } catch (Exception e) {
-            throw new DaoReadException(e.getMessage(), e);
+            throw new DaoReadException(e.getCause());
         }
         System.gc();
     }

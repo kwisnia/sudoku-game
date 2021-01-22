@@ -1,9 +1,9 @@
-<configuration debug="true">
+<configuration>
     <property name="HOME_LOG" value="./logs/appLogs.log"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
-                %d{HH:mm:ss} [%t] %-5level %logger{16} - %m%n
+                %d{HH:mm:ss} %green(%t) %5level %logger{16} - %m%n
             </Pattern>
         </encoder>
     </appender>
@@ -13,7 +13,7 @@
         <append>true</append>
         <immediateFlush>true</immediateFlush>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %level %c{1.} [%t] %m%n</pattern>
+            <pattern>%d{HH:mm:ss} %level %c{1.} [%t] %m%n</pattern>
         </encoder>
     </appender>
 

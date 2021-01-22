@@ -19,7 +19,10 @@ import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.comp.model.*;
+import pl.comp.model.BacktrackingSudokuSolver;
+import pl.comp.model.Difficulty;
+import pl.comp.model.FileMultipleBoardsDao;
+import pl.comp.model.SudokuBoard;
 
 public class SecondaryController extends javafx.stage.Window {
 

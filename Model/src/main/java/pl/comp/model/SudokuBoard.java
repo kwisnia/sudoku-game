@@ -12,9 +12,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
             board.set(i, new SudokuField(0));
         }
         board.forEach(f -> f.addPropertyChangeListener(this));
-        logger.debug("Board created!");
+        logger.debug(ResourceBundle.getBundle("Exceptions").getString("boardCreate"));
     }
 
     /**

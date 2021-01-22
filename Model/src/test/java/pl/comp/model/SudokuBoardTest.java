@@ -16,7 +16,6 @@ class SudokuBoardTest {
     void fillBoard() {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         sudokuBoard.solveGame();
-        System.out.println(sudokuBoard.toString());
         for (int i = 0; i < 9; i++) {
             assertTrue(sudokuBoard.getRow(i).verify());
             assertTrue(sudokuBoard.getColumn(i).verify());
@@ -45,36 +44,28 @@ class SudokuBoardTest {
     @Test
     void setNumberOutOfRange() {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        try {
-            sudokuBoard.set(0, 0, 10);
-        } catch (WrongInputException e) {
-            assertEquals(e.getMessage(), ResourceBundle.getBundle("Exceptions").getString(""));
-        }
-        try {
-            sudokuBoard.set(0,0, -1);
-        } catch (WrongInputException e) {
-            assertEquals(e.getMessage(), "Number must be in range from 1 to 9");
-        }
+        assertThrows(WrongInputException.class, () -> sudokuBoard.set(0, 0, 10));
+        assertThrows(WrongInputException.class, () -> sudokuBoard.set(0, 0, -1));
     }
 
-//    @Test
-//    void listenerTest() {
-//        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-//        sudokuBoard.setCheckFlag(true);
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        PrintStream ps = new PrintStream(baos);
-//        PrintStream oldOutput = System.out;
-//        System.setOut(ps);
-//        sudokuBoard.set(0, 0, 1);
-//        assertEquals(0, baos.toString().length());
-//        sudokuBoard.set(0, 1, 1);
-//        assertEquals("Wrong input: 1", baos.toString().trim());
-//        sudokuBoard.set(0, 1, 0);
-//        sudokuBoard.set(1, 0, 1);
-//        sudokuBoard.set(1, 0, 0);
-//        sudokuBoard.set(2, 2, 1);
-//        System.setOut(oldOutput);
-//    }
+    @Test
+    void listenerTest() {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.setCheckFlag(true);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        PrintStream oldOutput = System.out;
+        System.setOut(ps);
+        sudokuBoard.set(0, 0, 1);
+        assertEquals(0, baos.toString().length());
+        sudokuBoard.set(0, 1, 1);
+        assertTrue(baos.toString().trim().matches(".*Wrong input: 1"));
+        sudokuBoard.set(0, 1, 0);
+        sudokuBoard.set(1, 0, 1);
+        sudokuBoard.set(1, 0, 0);
+        sudokuBoard.set(2, 2, 1);
+        System.setOut(oldOutput);
+    }
 
     @Test
     void BoardEqualsTest() {

@@ -9,9 +9,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.util.ResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FileMultipleBoardsDao implements Dao<SudokuBoard[]> {
     private final String fileName;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public FileMultipleBoardsDao(String fileName) {
         this.fileName = fileName;
@@ -26,18 +30,21 @@ public class FileMultipleBoardsDao implements Dao<SudokuBoard[]> {
     public SudokuBoard[] read() throws IOException, ClassNotFoundException {
         try (InputStream fis = new FileInputStream(fileName);
              ObjectInput ois = new ObjectInputStream(fis)) {
+            logger.info(ResourceBundle.getBundle("Exceptions").getString("readFile"));
             return (SudokuBoard[]) ois.readObject();
         } catch (IOException e) {
-            e.initCause(new DaoReadException("s", e.getCause()));
-            throw e;
+            throw new DaoReadException(e.getCause());
         }
     }
 
     @Override
-    public void write(SudokuBoard[] obj) throws IOException {
+    public void write(SudokuBoard[] obj) throws DaoWriteException {
         try (OutputStream fos = new FileOutputStream(fileName);
              ObjectOutput oos = new ObjectOutputStream(fos)) {
             oos.writeObject(obj);
+            logger.info(ResourceBundle.getBundle("Exceptions").getString("writeFile"));
+        } catch (IOException e) {
+            throw new DaoWriteException(e.getCause());
         }
     }
 }
