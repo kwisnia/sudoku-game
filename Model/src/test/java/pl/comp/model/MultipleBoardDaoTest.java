@@ -2,6 +2,8 @@ package pl.comp.model;
 
 import org.junit.jupiter.api.Test;
 import java.io.File;
+import java.util.ResourceBundle;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MultipleBoardDaoTest {
@@ -16,6 +18,7 @@ public class MultipleBoardDaoTest {
             fDao.write(testArray);
             assertNotEquals(new File("testMultiple.txt").length(), 0);
         } catch (Exception e) {
+            throw new DaoException("DaoWriteException", e.getCause());
         }
         System.gc();
     }
@@ -24,7 +27,7 @@ public class MultipleBoardDaoTest {
     void writeExceptionTest() throws Exception {
         SudokuBoard[] testArray = {new SudokuBoard(new BacktrackingSudokuSolver())};
         try (Dao<SudokuBoard[]> fmDao = new FileMultipleBoardsDao("")) {
-            assertThrows(DaoWriteException.class, () -> fmDao.write(testArray));
+            assertThrows(DaoException.class, () -> fmDao.write(testArray));
         }
     }
 
@@ -42,8 +45,29 @@ public class MultipleBoardDaoTest {
             assertEquals(testBoard, readBoard[0]);
             assertEquals(testBoard2, readBoard[1]);
         } catch (Exception e) {
-            throw new DaoReadException(e.getCause());
+            throw new DaoException("DaoReadException", e.getCause());
         }
         System.gc();
+    }
+
+    @Test
+    void readExceptionTest() throws Exception {
+        try (Dao<SudokuBoard[]> fBoardDao = new FileMultipleBoardsDao("cos")) {
+            assertThrows(DaoException.class, fBoardDao::read);
+            fBoardDao.read();
+        } catch (DaoException e) {
+            assertEquals(ResourceBundle.getBundle("Exceptions").getString("DaoReadException"), e.getLocalizedMessage());
+        }
+        System.gc();
+    }
+
+    @Test
+    void daoExceptionWrongKeyTest() {
+        try {
+            throw new DaoException("Najman");
+        } catch (DaoException e) {
+            assertEquals(ResourceBundle.getBundle("Exceptions").getString("noKeyError") + e.getMessage(),
+                    e.getLocalizedMessage());
+        }
     }
 }
