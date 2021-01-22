@@ -1,5 +1,5 @@
 <configuration>
-    <property name="HOME_LOG" value="./logs/appLogs.log"/>
+    <property name="HOME_LOG" value="../logs/appLogs.log"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
