@@ -28,7 +28,6 @@ public class MultipleBoardDaoTest {
         testBoard.solveGame();
         testBoard2.solveGame();
         SudokuBoard[] testArray = {testBoard, testBoard2};
-
         testBoard.solveGame();
         try (Dao<SudokuBoard[]> fBoardDao = new FileMultipleBoardsDao("testMultiple_1.txt")) {
             fBoardDao.write(testArray);
@@ -40,6 +39,4 @@ public class MultipleBoardDaoTest {
         }
         System.gc();
     }
-
-
 }

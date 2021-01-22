@@ -27,7 +27,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
     private final SudokuSolver sudokuSolver;
     private boolean checkFlag = false;
     private Difficulty difficulty;
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected static final Logger logger = LoggerFactory.getLogger(SudokuBoard.class);
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
@@ -39,6 +39,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
             board.set(i, new SudokuField(0));
         }
         board.forEach(f -> f.addPropertyChangeListener(this));
+        logger.debug("Board created!");
     }
 
     /**

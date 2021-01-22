@@ -1,9 +1,9 @@
 <configuration debug="true">
-    <property name="HOME_LOG" value="logs/appLogs.log"/>
+    <property name="HOME_LOG" value="./logs/appLogs.log"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
-                %d{HH:mm:ss.SSS} [%t] %-5level %logger{16} - %m%n
+                %d{HH:mm:ss} [%t] %-5level %logger{16} - %m%n
             </Pattern>
         </encoder>
     </appender>
@@ -17,7 +17,7 @@
         </encoder>
     </appender>
 
-    <logger name="adam" level="debug" additivity="false">
+    <logger name="Model" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE" />
     </logger>

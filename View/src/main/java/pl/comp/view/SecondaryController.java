@@ -32,7 +32,7 @@ public class SecondaryController extends javafx.stage.Window {
     private final StringConverter<Number> converter = new NumberStringConverter();
     final FileChooser fileChooser = new FileChooser();
     private ResourceBundle bundle;
-    protected final static Logger logger = LoggerFactory.getLogger(SecondaryController.class);
+    protected static final Logger logger = LoggerFactory.getLogger(SecondaryController.class);
 
     public void initialize() {
         bundle = ResourceBundle.getBundle("pl/comp/view/Sudoku");
@@ -141,7 +141,7 @@ public class SecondaryController extends javafx.stage.Window {
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
             logger.info(bundle.getString("error"));
-            throw new SudokuNullException(e.getMessage());
+            throw new SudokuNullException();
         }
     }
 
@@ -152,6 +152,7 @@ public class SecondaryController extends javafx.stage.Window {
             try (FileMultipleBoardsDao fsbd =
                          new FileMultipleBoardsDao(saveFile.getAbsolutePath())) {
                 fsbd.write(new SudokuBoard[]{currentBoard, startBoard});
+                logger.info(bundle.getString("savedFileLog") + saveFile.getName());
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.NONE,
                         bundle.getString("saveError"), ButtonType.OK);
@@ -167,7 +168,7 @@ public class SecondaryController extends javafx.stage.Window {
             alert.setTitle(bundle.getString("error"));
             alert.showAndWait();
             logger.debug(bundle.getString("noFileChosen"));
-            throw new SudokuNullException(e.getMessage());
+            throw new SudokuNullException();
         }
     }
 }
