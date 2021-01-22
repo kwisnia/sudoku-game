@@ -22,12 +22,12 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     @Override
-    public SudokuBoard read() throws IOException, ClassNotFoundException {
+    public SudokuBoard read() throws IOException {
         try (InputStream fis = new FileInputStream(fileName);
              ObjectInput ois = new ObjectInputStream(fis)) {
             logger.info(ResourceBundle.getBundle("Exceptions").getString("readFile"));
             return (SudokuBoard) ois.readObject();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new DaoReadException(e.getCause());
         }
     }
