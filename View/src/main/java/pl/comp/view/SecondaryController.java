@@ -191,6 +191,7 @@ public class SecondaryController extends javafx.stage.Window {
         readStage.initOwner(root.getScene().getWindow());
         readStage.setScene(scene);
         readStage.showAndWait();
+        readStage.setResizable(false);
         String fileName = loader.<LoadController>getController().getFileName();
         if (fileName != null) {
             try {
@@ -206,7 +207,31 @@ public class SecondaryController extends javafx.stage.Window {
         }
     }
 
-    public void saveBaseButton() {
-
+    public void saveBaseButton() throws DaoException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("inputFile.fxml"), bundle);
+        Scene scene = null;
+        try {
+            scene = new Scene(loader.load());
+        } catch (IOException e) {
+            logger.error(e.getLocalizedMessage());
+        }
+        Stage inputStage = new Stage();
+        inputStage.setTitle(bundle.getString("saveButtonLabel"));
+        inputStage.initOwner(root.getScene().getWindow());
+        inputStage.setScene(scene);
+        inputStage.setResizable(false);
+        String filename = loader.<InputController>getController().getInput();
+        if (filename != null) {
+            try {
+                try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getFileDao(filename);
+                     Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getFileDao("initial" + filename)) {
+                    jdbcDao.write(currentBoard);
+                    startBoard = jdbcDaoInitial.read();
+                }
+            } catch (Exception e) {
+                logger.error(e.getLocalizedMessage(), e);
+                throw new DaoException(e.getLocalizedMessage());
+            }
+        }
     }
 }

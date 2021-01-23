@@ -10,7 +10,8 @@ import java.util.ResourceBundle;
 
 public class InputController implements Initializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    private ResourceBundle bundle = ResourceBundle.getBundle("Sudoku");
+    private ResourceBundle bundle;
+    private ResourceBundle ExceptionBundle = ResourceBundle.getBundle("Exceptions");
     public TextField textField;
     private boolean input = false;
     
