@@ -45,7 +45,7 @@ public class LoadController implements Initializable {
     private void getFileNames() throws DaoException, SQLException {
         try  {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, "postgres", "tomczak123");
+            connection = DriverManager.getConnection(URL, "postgres", "prokomp2020");
             logger.debug(exceptionBundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(exceptionBundle.getString("connection.failure"), e);
@@ -71,7 +71,8 @@ public class LoadController implements Initializable {
 
     public String getFileName() {
         if (!listBase.getSelectionModel().getSelectedIndices().isEmpty()) {
-            return String.valueOf(listBase.getSelectionModel().getSelectedItems());
+            logger.debug(String.valueOf(listBase.getSelectionModel().getSelectedItems().get(0)));
+            return String.valueOf(listBase.getSelectionModel().getSelectedItems().get(0));
         }
         logger.error(bundle.getString("loadError"));
         return null;

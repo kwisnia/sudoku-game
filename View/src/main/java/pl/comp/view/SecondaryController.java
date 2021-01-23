@@ -115,22 +115,7 @@ public class SecondaryController extends javafx.stage.Window {
                 logger.info(bundle.getString("loadFileLog") + loadedFile.getName());
                 currentBoard = readBoards[0];
                 startBoard = readBoards[1];
-                for (Node k : sudokuBoardGrid.getChildren().subList(0, 81)) {
-                    TextField field = (TextField) k;
-                    int row = GridPane.getRowIndex(k);
-                    int column = GridPane.getColumnIndex(k);
-                    field.setDisable(false);
-                    Bindings.bindBidirectional(field.textProperty(),
-                            currentBoard.getProperty(row, column), converter);
-                    if (currentBoard.get(row, column) == startBoard.get(row, column)
-                            && startBoard.get(row, column) != 0) {
-                        field.setDisable(true);
-                        field.setStyle("-fx-background-color: #F0EBD7;"
-                                + "-fx-opacity: 100%;"
-                                + "-fx-alignment: center;"
-                                + "-fx-border-style: solid");
-                    }
-                }
+                updateFields();
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.NONE,
                         bundle.getString("readingFile"),
@@ -195,14 +180,34 @@ public class SecondaryController extends javafx.stage.Window {
         String fileName = loader.<LoadController>getController().getFileName();
         if (fileName != null) {
             try {
-                try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getFileDao(fileName);
-                Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getFileDao("initial" + fileName)) {
+                try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(fileName);
+                Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getJdbcDao("initial" + fileName)) {
                     currentBoard = jdbcDao.read();
                     startBoard = jdbcDaoInitial.read();
-                    }
+                    updateFields();
+                }
                 } catch (Exception e) {
                     logger.error(e.getLocalizedMessage(), e);
-                    throw new DaoException(e.getLocalizedMessage());
+                    throw new DaoException("io.error");
+            }
+        }
+    }
+
+    private void updateFields() {
+        for (Node k : sudokuBoardGrid.getChildren().subList(0, 81)) {
+            TextField field = (TextField) k;
+            int row = GridPane.getRowIndex(k);
+            int column = GridPane.getColumnIndex(k);
+            field.setDisable(false);
+            Bindings.bindBidirectional(field.textProperty(),
+                    currentBoard.getProperty(row, column), converter);
+            if (currentBoard.get(row, column) == startBoard.get(row, column)
+                    && startBoard.get(row, column) != 0) {
+                field.setDisable(true);
+                field.setStyle("-fx-background-color: #F0EBD7;"
+                        + "-fx-opacity: 100%;"
+                        + "-fx-alignment: center;"
+                        + "-fx-border-style: solid");
             }
         }
     }
@@ -224,8 +229,8 @@ public class SecondaryController extends javafx.stage.Window {
         String filename = loader.<InputController>getController().getInput();
         if (filename != null) {
             try {
-                try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getFileDao(filename);
-                     Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getFileDao("initial" + filename)) {
+                try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);
+                     Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getJdbcDao("initial" + filename)) {
                     jdbcDao.write(currentBoard);
                     jdbcDaoInitial.write(startBoard);
                 }

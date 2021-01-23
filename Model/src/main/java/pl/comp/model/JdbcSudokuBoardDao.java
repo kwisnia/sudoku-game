@@ -23,7 +23,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         return name;
     }
 
-    public JdbcSudokuBoardDao(String name) throws DaoException, SQLException, ClassNotFoundException {
+    public JdbcSudokuBoardDao(String name) throws DaoException {
         this.name = name;
         try {
             Class.forName(DRIVER);
@@ -32,26 +32,25 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             logger.debug(bundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(bundle.getString("connection.failure"));
-            throw e;
+            throw new DaoException("connection.failure");
         }
     }
 
-    private void createTables() throws SQLException {
+    private void createTables() {
         try (Statement jdbcStatement = connection.createStatement()) {
             String boardTables = "CREATE TABLE BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, "
-                    + "BOARD_NAME varchar(30) NOT NULL UNIQUE); CREATE TABLE FIELDS(ROW int NOT NULL, Y int NOT NULL, "
+                    + "BOARD_NAME varchar(30) NOT NULL UNIQUE); CREATE TABLE FIELDS(X int NOT NULL, Y int NOT NULL, "
                     + "VALUE int NOT NULL, BOARD_ID int, FOREIGN KEY (BOARD_ID) REFERENCES BOARDS (BOARD_ID) ON"
                     + " UPDATE CASCADE ON DELETE CASCADE )";
             jdbcStatement.executeUpdate(boardTables);
-            logger.debug("Utworzono tablice");
+            logger.debug(bundle.getString("tableCreated"));
         } catch (SQLException e) {
-            logger.error(e.getLocalizedMessage());
             logger.error(bundle.getString("noTableCreated"));
         }
     }
 
     @Override
-    public SudokuBoard read() throws IOException, ClassNotFoundException, DaoException {
+    public SudokuBoard read() throws DaoException {
         SudokuBoard readBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         int id;
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT BOARDS.BOARD_ID FROM " +
@@ -61,15 +60,15 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 if (resultSet.next()) {
                     id = resultSet.getInt(1);
                 } else {
-                    logger.error("No nie");
-                    throw new DaoException("placeholder");
+                    logger.error(bundle.getString("io.error"));
+                    throw new DaoException("io.error");
                 }
                 logger.debug(bundle.getString("loadTable"));
             }
         } catch (SQLException e) {
-            throw new DaoException("placeholder");
+            throw new DaoException("io.error");
         }
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT FIELDS.ROW, " +
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT FIELDS.X, " +
                 "FIELDS.Y, FIELDS.VALUE FROM FIELDS WHERE FIELDS.BOARD_ID=?")) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -82,7 +81,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
         } catch (SQLException e) {
             logger.error(e.getLocalizedMessage());
-            throw new DaoException("Test");
+            throw new DaoException("io.error");
         }
         return readBoard;
     }
@@ -96,7 +95,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e.getMessage());
-            throw new DaoException("Lol");
+            throw new DaoException("io.error");
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT " +
@@ -112,7 +111,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());
-            throw new DaoException("lol");
+            throw new DaoException("io.error");
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO" +
@@ -126,9 +125,9 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                     preparedStatement.executeUpdate();
                 }
             }
-            logger.debug("Wprowadzono dane");
+            logger.debug(bundle.getString("saveSudoku"));
         } catch (SQLException e) {
-            throw new DaoException("lol");
+            throw new DaoException("io.error");
         }
     }
 
