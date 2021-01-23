@@ -11,7 +11,7 @@ public class JdbcSudokuBoardDaoTest {
 
         @Test
         void writeAndReadTest() throws Exception {
-            try (Dao<SudokuBoard> jdbcDao = new JdbcSudokuBoardDao("testFilename")) {
+            try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao("testFilename22")) {
                 board.solveGame();
                 jdbcDao.write(board);
                 boardtwo = jdbcDao.read();
@@ -23,8 +23,18 @@ public class JdbcSudokuBoardDaoTest {
 
         @Test
         public void filenameTest() {
-            try (Dao<SudokuBoard> jdbcDao = new JdbcSudokuBoardDao("testFilename")) {
-                assertEquals(((JdbcSudokuBoardDao) jdbcDao).getName(), "testFilename");
+            try (JdbcSudokuBoardDao jdbcDao = new JdbcSudokuBoardDao("testFilename2")) {
+                assertEquals(jdbcDao.getName(), "testFilename2");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Test
+        public void exceptionTest() {
+            try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao("");
+            Dao<SudokuBoard> failDao = SudokuBoardDaoFactory.getJdbcDao("test33")) {
+                assertThrows(DaoException.class, failDao::read);
             } catch (Exception e) {
                 e.printStackTrace();
             }

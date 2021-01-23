@@ -94,25 +94,12 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
         this.checkFlag = checkFlag;
     }
 
-    private void initializeBoard() {
-        Random random = new Random();
-        int insertedNumber = 1;
-        while (insertedNumber <= 9) {
-            int[] positions = {random.nextInt(9), random.nextInt(9)};
-            if (board.get(positions[0] * 9 + positions[1]).getFieldValue() == 0) {
-                board.get(positions[0] * 9 + positions[1]).setFieldValue(insertedNumber);
-                insertedNumber++;
-            }
-        }
-    }
-
     /**
      * Fill board.
      */
 
     public void solveGame() {
         board.forEach(f -> f.setFieldValue(0));
-        initializeBoard();
         sudokuSolver.solve(this);
         checkBoard();
     }

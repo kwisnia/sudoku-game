@@ -11,7 +11,7 @@ public class DaoException extends Exception {
     }
 
     public DaoException(String message, Throwable cause) {
-        super(bundle.getString(message), cause);
+        super(message, cause);
     }
 
     @Override

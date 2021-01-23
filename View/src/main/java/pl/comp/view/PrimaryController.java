@@ -67,17 +67,13 @@ public class PrimaryController {
         FXMLLoader secondary = Window.getFxmlLoader("secondary");
         Parent p = secondary.load();
         SecondaryController boardView = secondary.getController();
-        switch (difficultyChoiceBox.getValue()) {
-            case "Easy":
-                boardView.setDifficulty(Difficulty.EASY);
-                break;
-            case "Medium":
-            default:
-                boardView.setDifficulty(Difficulty.MEDIUM);
-                break;
-            case "Hard":
-                boardView.setDifficulty(Difficulty.HARD);
-                break;
+        String selectedDifficulty = difficultyChoiceBox.getValue();
+        if (selectedDifficulty.equals(bundle.getString("easyLevelLabel"))) {
+            boardView.setDifficulty(Difficulty.EASY);
+        } else if (selectedDifficulty.equals(bundle.getString("mediumLevelLabel"))) {
+            boardView.setDifficulty(Difficulty.MEDIUM);
+        } else {
+            boardView.setDifficulty(Difficulty.HARD);
         }
         boardView.startGame();
         Window.setRoot(p);

@@ -17,9 +17,8 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (sudokuBoard.get(i, j) == 0) {
-                    for (int n:
-                         shuffledNumbers) {
-                        sudokuBoard.set(i, j, n);
+                    for (int k = 0; k < 9; k++) {
+                        sudokuBoard.set(i, j, shuffledNumbers.get(k));
                         if (sudokuBoard.getBox(i, j).verify()
                                 && sudokuBoard.getColumn(j).verify()
                                 && sudokuBoard.getRow(i).verify()) {
