@@ -51,13 +51,13 @@ public class LoadController implements Initializable {
         ResultSet resultSet;
         try {
             JDBC_STATEMENT = connection.createStatement();
-//            preparedStatement = connection.prepareStatement(
-//                    "SELECT BOARDS.BOARD_NAME from BOARDS"
-//            );
-//            resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()) {
-//                nameOfSudoku.add(resultSet.getString(1));
-//            }
+            preparedStatement = connection.prepareStatement(
+                    "SELECT BOARDS.BOARD_NAME from BOARDS"
+            );
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                nameOfSudoku.add(resultSet.getString(1));
+            }
             // nie wiem czemu ale nie czyta mi mojej bazy danych
             // nie jest dobrze :(
             logger.debug(sudokuBundle.getString("loaded"));
