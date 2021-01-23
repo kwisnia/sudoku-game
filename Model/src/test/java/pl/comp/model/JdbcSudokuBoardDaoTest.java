@@ -14,10 +14,10 @@ public class JdbcSudokuBoardDaoTest {
             try (Dao<SudokuBoard> jdbcDao = new JdbcSudokuBoardDao("testFilename")) {
                 board.solveGame();
                 jdbcDao.write(board);
-                System.out.println(board.toString());
                 boardtwo = jdbcDao.read();
-                System.out.println(boardtwo.toString());
                 assertEquals(board, boardtwo);
+                boardtwo.set(0, 0, 0);
+                assertNotEquals(board, boardtwo);
             }
         }
 

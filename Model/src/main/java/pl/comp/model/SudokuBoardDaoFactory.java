@@ -10,6 +10,8 @@ public class SudokuBoardDaoFactory {
     public static Dao<SudokuBoard> getFileDao(String fileName) {
         return new FileSudokuBoardDao(fileName);
     }
+
     public static Dao<SudokuBoard> getJdbcDao(String name) throws DaoException {
-        return new JdbcSudokuBoardDao(name); }
+        return new JdbcSudokuBoardDao(name);
+    }
 }

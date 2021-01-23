@@ -1,17 +1,17 @@
 package pl.comp.view;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class InputController implements Initializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private ResourceBundle bundle;
-    private ResourceBundle ExceptionBundle = ResourceBundle.getBundle("Exceptions");
+    private ResourceBundle exceptionBundle = ResourceBundle.getBundle("Exceptions");
     public TextField textField;
     private boolean input = false;
     
@@ -27,10 +27,10 @@ public class InputController implements Initializable {
     }
 
     public String getInput() {
-        if(!textField.getText().isEmpty()) {
+        if (!textField.getText().isEmpty()) {
             return textField.getText();
         }
-        logger.error(ExceptionBundle.getString("io.error"));
+        logger.error(exceptionBundle.getString("io.error"));
         return null;
     }
 }

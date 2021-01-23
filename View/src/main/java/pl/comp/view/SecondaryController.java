@@ -24,7 +24,13 @@ import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.comp.model.*;
+import pl.comp.model.BacktrackingSudokuSolver;
+import pl.comp.model.Dao;
+import pl.comp.model.DaoException;
+import pl.comp.model.Difficulty;
+import pl.comp.model.FileMultipleBoardsDao;
+import pl.comp.model.SudokuBoard;
+import pl.comp.model.SudokuBoardDaoFactory;
 
 public class SecondaryController extends javafx.stage.Window {
 
@@ -181,7 +187,8 @@ public class SecondaryController extends javafx.stage.Window {
         if (fileName != null) {
             try {
                 try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(fileName);
-                Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getJdbcDao("initial" + fileName)) {
+                Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory
+                        .getJdbcDao("initial" + fileName)) {
                     currentBoard = jdbcDao.read();
                     startBoard = jdbcDaoInitial.read();
                     updateFields();
@@ -230,7 +237,8 @@ public class SecondaryController extends javafx.stage.Window {
         if (filename != null) {
             try {
                 try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);
-                     Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getJdbcDao("initial" + filename)) {
+                     Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory
+                             .getJdbcDao("initial" + filename)) {
                     jdbcDao.write(currentBoard);
                     jdbcDaoInitial.write(startBoard);
                 }

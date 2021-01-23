@@ -1,7 +1,6 @@
 package pl.comp.view;
 
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,8 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,6 @@ public class LoadController implements Initializable {
     private ResourceBundle exceptionBundle = ResourceBundle.getBundle("Exceptions");
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String DRIVER = "org.postgresql.Driver";
-    private Statement JDBC_STATEMENT;
     private Connection connection;
     private List<String> nameOfSudoku = new ArrayList<>();
     private boolean loaded = false;
@@ -51,8 +50,9 @@ public class LoadController implements Initializable {
             logger.error(exceptionBundle.getString("connection.failure"), e);
             throw new DaoException(e.getLocalizedMessage(), e);
         }
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT " +
-                "BOARDS.BOARD_NAME from BOARDS"); ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT "
+                + "BOARDS.BOARD_NAME from BOARDS");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 nameOfSudoku.add(resultSet.getString(1));
             }

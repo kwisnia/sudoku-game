@@ -38,9 +38,12 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
     private void createTables() {
         try (Statement jdbcStatement = connection.createStatement()) {
-            String boardTables = "CREATE TABLE BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, "
-                    + "BOARD_NAME varchar(30) NOT NULL UNIQUE); CREATE TABLE FIELDS(X int NOT NULL, Y int NOT NULL, "
-                    + "VALUE int NOT NULL, BOARD_ID int, FOREIGN KEY (BOARD_ID) REFERENCES BOARDS (BOARD_ID) ON"
+            String boardTables = "CREATE TABLE BOARDS(BOARD_ID int PRIMARY KEY GENERATED "
+                    + "ALWAYS AS IDENTITY, "
+                    + "BOARD_NAME varchar(30) NOT NULL UNIQUE);"
+                    + " CREATE TABLE FIELDS(X int NOT NULL, Y int NOT NULL, "
+                    + "VALUE int NOT NULL, BOARD_ID int, FOREIGN KEY (BOARD_ID)"
+                    + " REFERENCES BOARDS (BOARD_ID) ON"
                     + " UPDATE CASCADE ON DELETE CASCADE )";
             jdbcStatement.executeUpdate(boardTables);
             logger.debug(bundle.getString("tableCreated"));
@@ -53,8 +56,9 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     public SudokuBoard read() throws DaoException {
         SudokuBoard readBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         int id;
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT BOARDS.BOARD_ID FROM " +
-                "BOARDS where BOARDS.BOARD_NAME=?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT"
+                + " BOARDS.BOARD_ID FROM "
+                + "BOARDS where BOARDS.BOARD_NAME=?")) {
                 preparedStatement.setString(1, name);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -68,8 +72,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         } catch (SQLException e) {
             throw new DaoException("io.error");
         }
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT FIELDS.X, " +
-                "FIELDS.Y, FIELDS.VALUE FROM FIELDS WHERE FIELDS.BOARD_ID=?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT FIELDS.X, "
+                + "FIELDS.Y, FIELDS.VALUE FROM FIELDS WHERE FIELDS.BOARD_ID=?")) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -89,8 +93,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     @Override
     public void write(SudokuBoard obj) throws DaoException {
         int id;
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO BOARDS " +
-                "(BOARD_NAME) VALUES (?)")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO BOARDS "
+                + "(BOARD_NAME) VALUES (?)")) {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -98,8 +102,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             throw new DaoException("io.error");
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT " +
-                "BOARDS.BOARD_ID FROM BOARDS WHERE BOARDS.BOARD_NAME=?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT "
+                + "BOARDS.BOARD_ID FROM BOARDS WHERE BOARDS.BOARD_NAME=?")) {
             preparedStatement.setString(1, name);
             try (ResultSet set = preparedStatement.executeQuery()) {
                 if (set.next()) {
@@ -114,8 +118,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             throw new DaoException("io.error");
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO" +
-                " FIELDS VALUES(?, ?, ?, ?)")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO"
+                + " FIELDS VALUES(?, ?, ?, ?)")) {
             preparedStatement.setInt(4, id);
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
