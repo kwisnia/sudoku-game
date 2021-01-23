@@ -30,7 +30,7 @@ public class InputController implements Initializable {
         if(!textField.getText().isEmpty()) {
             return textField.getText();
         }
-        logger.error(bundle.getString("saveError"));
+        logger.error(ExceptionBundle.getString("io.error"));
         return null;
     }
 }

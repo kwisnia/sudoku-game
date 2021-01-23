@@ -220,13 +220,14 @@ public class SecondaryController extends javafx.stage.Window {
         inputStage.initOwner(root.getScene().getWindow());
         inputStage.setScene(scene);
         inputStage.setResizable(false);
+        inputStage.showAndWait();
         String filename = loader.<InputController>getController().getInput();
         if (filename != null) {
             try {
                 try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getFileDao(filename);
                      Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getFileDao("initial" + filename)) {
                     jdbcDao.write(currentBoard);
-                    startBoard = jdbcDaoInitial.read();
+                    jdbcDaoInitial.write(startBoard);
                 }
             } catch (Exception e) {
                 logger.error(e.getLocalizedMessage(), e);

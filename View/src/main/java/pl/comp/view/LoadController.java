@@ -45,7 +45,7 @@ public class LoadController implements Initializable {
     private void getFileNames() throws DaoException, SQLException {
         try  {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, "postgres", "prokomp2020");
+            connection = DriverManager.getConnection(URL, "postgres", "tomczak123");
             logger.debug(exceptionBundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(exceptionBundle.getString("connection.failure"), e);
