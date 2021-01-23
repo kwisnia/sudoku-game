@@ -1,16 +1,19 @@
 package pl.comp.view;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.ListView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.comp.model.DaoException;
 
 public class LoadController implements Initializable {
@@ -39,22 +42,16 @@ public class LoadController implements Initializable {
     }
 
     private void getFileNames() throws DaoException, SQLException {
-        try {
+        try  {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, "postgres", "postgres");
+            connection = DriverManager.getConnection(URL, "postgres", "prokomp2020");
             logger.debug(exceptionBundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(exceptionBundle.getString("connection.failure"), e);
             throw new DaoException(e.getLocalizedMessage(), e);
         }
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
-        try {
-            JDBC_STATEMENT = connection.createStatement();
-            preparedStatement = connection.prepareStatement(
-                    "SELECT BOARDS.BOARD_NAME from BOARDS"
-            );
-            resultSet = preparedStatement.executeQuery();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT " +
+                "BOARDS.BOARD_NAME from BOARDS"); ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 nameOfSudoku.add(resultSet.getString(1));
             }
@@ -65,7 +62,6 @@ public class LoadController implements Initializable {
             logger.error(exceptionBundle.getString("io.error"));
         }
         connection.close();
-        JDBC_STATEMENT.close();
     }
 
     public void loadSudoku() {
