@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,7 +27,7 @@ public class LoadController implements Initializable {
     private static final String DRIVER = "org.postgresql.Driver";
     private Statement JDBC_STATEMENT;
     private Connection connection;
-    private List<String> nameOfSudoku;
+    private List<String> nameOfSudoku = new ArrayList<>();
     private boolean loaded = false;
 
     @Override
@@ -44,7 +45,7 @@ public class LoadController implements Initializable {
     private void getFileNames() throws DaoException, SQLException {
         try  {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, "postgres", "tomczak123");
+            connection = DriverManager.getConnection(URL, "postgres", "prokomp2020");
             logger.debug(exceptionBundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(exceptionBundle.getString("connection.failure"), e);

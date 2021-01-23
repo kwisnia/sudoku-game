@@ -27,7 +27,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         this.name = name;
         try {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, "postgres", "tomczak123");
+            connection = DriverManager.getConnection(URL, "postgres", "prokomp2020");
             createTables();
             logger.debug(bundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
