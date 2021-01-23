@@ -20,8 +20,8 @@ public class LoadController implements Initializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     public Button load;
     public ListView<String> listBase;
+    ResourceBundle bundle;
     private ResourceBundle exceptionBundle = ResourceBundle.getBundle("Exceptions");
-    private ResourceBundle sudokuBundle = ResourceBundle.getBundle("Sudoku");
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String DRIVER = "org.postgresql.Driver";
     private Statement JDBC_STATEMENT;
@@ -31,7 +31,7 @@ public class LoadController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        resourceBundle = exceptionBundle;
+        bundle = resourceBundle;
         try {
             getFileNames();
         } catch (DaoException | SQLException e) {
@@ -44,7 +44,7 @@ public class LoadController implements Initializable {
     private void getFileNames() throws DaoException, SQLException {
         try  {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, "postgres", "prokomp2020");
+            connection = DriverManager.getConnection(URL, "postgres", "tomczak123");
             logger.debug(exceptionBundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(exceptionBundle.getString("connection.failure"), e);
@@ -55,10 +55,9 @@ public class LoadController implements Initializable {
             while (resultSet.next()) {
                 nameOfSudoku.add(resultSet.getString(1));
             }
-            // nie wiem czemu ale nie czyta mi mojej bazy danych
-            // nie jest dobrze :(
-            logger.debug(sudokuBundle.getString("loaded"));
+            logger.debug(bundle.getString("loaded"));
         } catch (SQLException e) {
+            logger.debug(e.getMessage());
             logger.error(exceptionBundle.getString("io.error"));
         }
         connection.close();
@@ -73,7 +72,7 @@ public class LoadController implements Initializable {
         if (!listBase.getSelectionModel().getSelectedIndices().isEmpty()) {
             return String.valueOf(listBase.getSelectionModel().getSelectedItems());
         }
-        logger.error(sudokuBundle.getString("loadError"));
+        logger.error(bundle.getString("loadError"));
         return null;
     }
 }
