@@ -48,7 +48,7 @@
    <Button fx:id="saveBaseButton" layoutX="735.0" layoutY="214.0" mnemonicParsing="false" onAction="#saveBaseButton" prefHeight="25.0" prefWidth="108.0" text="%saveBaseButtonLabel" />
    <ImageView fitHeight="80.0" fitWidth="116.0" layoutX="731.0" layoutY="268.0">
       <image>
-         <Image url="@crying_cat.png" />
+         <Image url="@crying_cat-removebg-preview.png" />
       </image>
    </ImageView>
 </Pane>
