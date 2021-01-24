@@ -1,6 +1,5 @@
 package pl.comp.model;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +27,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         try {
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, "postgres", "prokomp2020");
+            connection.setAutoCommit(false);
             createTables();
             logger.debug(bundle.getString("connection.success"));
         } catch (ClassNotFoundException | SQLException e) {
@@ -36,7 +36,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         }
     }
 
-    private void createTables() {
+    private void createTables() throws SQLException {
         try (Statement jdbcStatement = connection.createStatement()) {
             String boardTables = "CREATE TABLE BOARDS(BOARD_ID int PRIMARY KEY GENERATED "
                     + "ALWAYS AS IDENTITY, "
@@ -47,13 +47,15 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                     + " UPDATE CASCADE ON DELETE CASCADE )";
             jdbcStatement.executeUpdate(boardTables);
             logger.debug(bundle.getString("tableCreated"));
+            connection.commit();
         } catch (SQLException e) {
             logger.error(bundle.getString("noTableCreated"));
+            connection.rollback();
         }
     }
 
     @Override
-    public SudokuBoard read() throws DaoException {
+    public SudokuBoard read() throws DaoException, SQLException {
         SudokuBoard readBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         int id;
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT"
@@ -65,12 +67,15 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                     id = resultSet.getInt(1);
                 } else {
                     logger.error(bundle.getString("io.error"));
+                    connection.rollback();
                     throw new DaoException("io.error");
                 }
                 logger.debug(bundle.getString("loadTable"));
             }
         } catch (SQLException e) {
+            connection.rollback();
             throw new DaoException("io.error");
+
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT FIELDS.X, "
                 + "FIELDS.Y, FIELDS.VALUE FROM FIELDS WHERE FIELDS.BOARD_ID=?")) {
@@ -82,8 +87,10 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                             resultSet.getInt(3));
                 }
                 logger.debug(bundle.getString("loadSudokuToTable"));
+                connection.commit();
             }
         } catch (SQLException e) {
+            connection.rollback();
             logger.error(e.getLocalizedMessage());
             throw new DaoException("io.error");
         }
@@ -91,13 +98,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     @Override
-    public void write(SudokuBoard obj) throws DaoException {
+    public void write(SudokuBoard obj) throws DaoException, SQLException {
         int id;
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO BOARDS "
                 + "(BOARD_NAME) VALUES (?)")) {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            connection.rollback();
             logger.error(e.getMessage());
             throw new DaoException("io.error");
         }
@@ -109,11 +117,13 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 if (set.next()) {
                     id = set.getInt(1);
                 } else {
+                    connection.rollback();
                     logger.error(bundle.getString("io.error"));
                     throw new DaoException(bundle.getString("io.error"));
                 }
             }
         } catch (SQLException e) {
+            connection.rollback();
             logger.error(e.getMessage());
             throw new DaoException("io.error");
         }
@@ -129,8 +139,10 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                     preparedStatement.executeUpdate();
                 }
             }
+            connection.commit();
             logger.debug(bundle.getString("saveSudoku"));
         } catch (SQLException e) {
+            connection.rollback();
             throw new DaoException("io.error");
         }
     }

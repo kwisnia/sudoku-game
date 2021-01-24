@@ -1,7 +1,7 @@
 package pl.comp.model;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
+import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,5 +39,6 @@ public class JdbcSudokuBoardDaoTest {
                 e.printStackTrace();
             }
         }
+
 }
 
