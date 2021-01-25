@@ -5,14 +5,13 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="100.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.view.InputController">
    <children>
       <TitledPane animated="false" prefHeight="121.0" prefWidth="250.0" text="%chooseFile">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="112.0" prefWidth="255.0">
                <children>
-                  <Button layoutX="123.0" layoutY="48.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="\%saveButtonLabel" onAction="#submit" />
+                  <Button layoutX="123.0" layoutY="48.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="111.0" text="%saveButtonLabel" />
                   <TextField fx:id="textField" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="215.0" />
                </children>
             </AnchorPane>

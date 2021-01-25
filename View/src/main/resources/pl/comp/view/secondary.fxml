@@ -42,8 +42,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
-   <Button fx:id="loadButton" layoutX="735.0" layoutY="379.0" mnemonicParsing="false" onAction="#load" prefHeight="28.0" prefWidth="108.0" text="%loadButtonLabel" />
-   <Button fx:id="saveButton" layoutX="735.0" layoutY="424.0" mnemonicParsing="false" onAction="#save" prefHeight="28.0" prefWidth="108.0" text="%saveButtonLabel" />
+   <Button fx:id="loadButton" layoutX="735.0" layoutY="379.0" mnemonicParsing="false" onAction="#load" prefHeight="28.0" prefWidth="108.0" text="%loadFile" />
+   <Button fx:id="saveButton" layoutX="735.0" layoutY="424.0" mnemonicParsing="false" onAction="#save" prefHeight="28.0" prefWidth="108.0" text="%saveFile" />
    <Button fx:id="loadBaseButton" layoutX="735.0" layoutY="175.0" mnemonicParsing="false" onAction="#loadBaseButton" prefHeight="25.0" prefWidth="108.0" text="%loadBaseButtonLabel" />
    <Button fx:id="saveBaseButton" layoutX="735.0" layoutY="214.0" mnemonicParsing="false" onAction="#saveBaseButton" prefHeight="25.0" prefWidth="108.0" text="%saveBaseButtonLabel" />
    <ImageView fitHeight="80.0" fitWidth="116.0" layoutX="731.0" layoutY="268.0">
